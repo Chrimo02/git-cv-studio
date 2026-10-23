@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git-CV Studio — Standalone Native PDF Resume Builder</title>
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <style>
+      :root {
+        --bg-app: #0f1115;
+        --bg-panel: #161920;
+        --bg-card: #1d212a;
+        --bg-input: #111318;
+        --border: #2a2f3d;
+        --border-focus: #3b82f6;
+        --text-main: #f3f4f6;
+        --text-muted: #9ca3af;
+        --text-dim: #6b7280;
+        --accent: #10b981;
+        --accent-hover: #059669;
+        --blue: #3b82f6;
+        --danger: #ef4444;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: var(--bg-app);
+        color: var(--text-main);
+        font-size: 13px;
+      }
+
+      /* Top Studio Bar */
+      .studio-topbar {
+        height: 54px;
+        background: var(--bg-panel);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        gap: 12px;
+      }
+
+      .studio-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .studio-logo {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        font-size: 13px;
+        color: #fff;
+      }
+
+      .studio-title {
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: -0.02em;
+      }
+
+      .studio-subtitle {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: var(--text-muted);
+        padding: 2px 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+      }
+
+      .studio-profile-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .studio-select,
+      .studio-input,
+      .studio-textarea {
+        background: var(--bg-input);
+        color: var(--text-main);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 6px 10px;
+        font-family: inherit;
+        font-size: 12.5px;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+
+      .studio-select:focus,
+      .studio-input:focus,
+      .studio-textarea:focus {
+        border-color: var(--border-focus);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px 11px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text-main);
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+
+      .btn:hover {
+        background: #262b36;
+        border-color: #3d4558;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #052e16;
+        font-weight: 600;
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
+        color: #ffffff;
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+
+      .btn-danger {
+        color: #fca5a5;
+        border-color: rgba(239, 68, 68, 0.3);
+      }
+
+      .btn-danger:hover {
+        background: rgba(239, 68, 68, 0.15);
+        border-color: var(--danger);
+      }
+
+      .btn-sm {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+
+      .save-status {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--text-muted);
+        min-width: 90px;
+      }
+
+      /* Modern Pill Toggle Switch */
+      .switch-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+        font-size: 12px;
+        color: var(--text-main);
+      }
+
+      .ui-switch {
+        position: relative;
+        width: 34px;
+        height: 19px;
+        appearance: none;
+        -webkit-appearance: none;
+        background: #323846;
+        border-radius: 999px;
+        border: 1px solid #454d5e;
+        cursor: pointer;
+        transition: background 0.18s, border-color 0.18s;
+        flex-shrink: 0;
+        margin: 0;
+      }
+
+      .ui-switch::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #d1d5db;
+        transition: transform 0.18s, background 0.18s;
+      }
+
+      .ui-switch:checked {
+        background: #10b981;
+        border-color: #059669;
+      }
+
+      .ui-switch:checked::after {
+        transform: translateX(15px);
+        background: #ffffff;
+      }
+
+      .section-toggles-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .section-toggle-pill {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg-input);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 7px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
+        transition: border-color 0.15s;
+      }
+
+      .section-toggle-pill:hover {
+        border-color: #3d4558;
+      }
+
+      /* Main Split Layout */
+      .studio-workspace {
+        display: grid;
+        grid-template-columns: 510px 1fr;
+        height: calc(100vh - 54px);
+      }
+
+      /* Left Editor Column */
+      .editor-pane {
+        background: var(--bg-panel);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .editor-tabs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-bottom: 1px solid var(--border);
+        background: #12151b;
+        padding: 4px 6px 0;
+        gap: 4px;
+      }
+
+      .editor-tab {
+        padding: 9px 6px;
+        text-align: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .editor-tab:hover {
+        color: var(--text-main);
+      }
+
+      .editor-tab.active {
+        color: #60a5fa;
+        border-bottom-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.06);
+      }
+
+      .editor-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px 16px 40px;
+      }
+
+      /* Form Controls */
+      .section-block {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .section-block-title {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #93c5fd;
+        margin: 0 0 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .field-full {
+        grid-column: 1 / -1;
+      }
+
+      .field-label {
+        display: block;
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+        font-weight: 500;
+      }
+
+      .field-wrap .studio-input,
+      .field-wrap .studio-select,
+      .field-wrap .studio-textarea {
+        width: 100%;
+      }
+
+      .studio-textarea {
+        resize: vertical;
+        min-height: 74px;
+        line-height: 1.45;
+      }
+
+      .toggle-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* Entry Accordion Cards */
+      .entry-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        overflow: hidden;
+        transition: border-color 0.15s, opacity 0.15s;
+      }
+
+      .entry-item.disabled-entry {
+        opacity: 0.48;
+      }
+
+      .entry-item.open {
+        border-color: #3b82f6;
+      }
+
+      .entry-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 11px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .entry-header:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .entry-cat-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        flex-shrink: 0;
+      }
+
+      .entry-summary {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .entry-summary-title {
+        font-weight: 600;
+        font-size: 12.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .entry-summary-meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .entry-details {
+        border-top: 1px solid var(--border);
+        padding: 12px;
+        background: #151820;
+        display: none;
+      }
+
+      .entry-item.open .entry-details {
+        display: block;
+      }
+
+      /* Sliders */
+      .slider-row {
+        margin-bottom: 10px;
+      }
+
+      .slider-top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11.5px;
+        margin-bottom: 3px;
+      }
+
+      .slider-val {
+        font-family: "JetBrains Mono", monospace;
+        color: #93c5fd;
+        font-size: 11px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--blue);
+        cursor: pointer;
+      }
+
+      /* Right Preview Pane */
+      .preview-pane {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background: #232730;
+        overflow: hidden;
+      }
+
+      .preview-toolbar {
+        height: 44px;
+        background: #1a1d25;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+      }
+
+      .preview-mode-tabs {
+        display: inline-flex;
+        background: var(--bg-input);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 2px;
+      }
+
+      .preview-mode-btn {
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      .preview-mode-btn.active {
+        background: #2d3548;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .preview-viewport {
+        flex: 1;
+        overflow: auto;
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      /* Live A4 Sheet representation */
+      .a4-live-sheet {
+        width: 210mm;
+        min-height: 297mm;
+        background: #FFFFFF;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+        border-radius: 3px;
+        padding: 10mm 12mm;
+        transform-origin: top center;
+        position: relative;
+      }
+
+      /* Visual dashed page-break guide markers on the live canvas */
+      .a4-page-guide {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border-top: 1px dashed rgba(59, 130, 246, 0.45);
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .a4-page-guide span {
+        position: absolute;
+        right: 6px;
+        top: -15px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 9px;
+        background: rgba(59, 130, 246, 0.12);
+        color: #2563eb;
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+
+      .native-pdf-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 4px;
+        background: #323639;
+      }
+    </style>
+    <style id="cvDynamicStyles"></style>
+  </head>
+  <body>
+    <!-- Top Studio Header -->
+    <header class="studio-topbar">
+      <div class="studio-brand">
+        <div class="studio-logo">git</div>
+        <div>
+          <span class="studio-title">Git-CV Studio</span>
+        </div>
+        <span class="studio-subtitle">Standalone Native PDF Builder</span>
+      </div>
+
+      <div class="studio-profile-bar">
+        <label style="font-size:11px; color:var(--text-muted);">Profile:</label>
+        <select id="profileSelect" class="studio-select" style="min-width: 230px;"></select>
+        <button id="btnDuplicateProfile" class="btn btn-sm" title="Duplicate current profile for a new job application">+ Duplicate</button>
+        <button id="btnRenameProfile" class="btn btn-sm" title="Rename current profile">Rename</button>
+        <button id="btnDeleteProfile" class="btn btn-sm btn-danger" title="Delete current profile">Delete</button>
+        <button id="btnExportJson" class="btn btn-sm" title="Export profile as JSON file">JSON ↓</button>
+        <label class="btn btn-sm" title="Import profile from JSON file" style="margin:0;">
+          JSON ↑
+          <input id="inputImportJson" type="file" accept=".json" style="display:none;" />
+        </label>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span id="saveStatus" class="save-status">✓ Saved</span>
+        <button id="btnExportPdf" class="btn btn-primary">
+          <span>⬇ Export Native PDF</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="studio-workspace">
+      <!-- Left Editor Pane -->
+      <aside class="editor-pane">
+        <nav class="editor-tabs">
+          <button class="editor-tab active" data-tab="timeline">1. Git Graph</button>
+          <button class="editor-tab" data-tab="header">2. Header &amp; Info</button>
+          <button class="editor-tab" data-tab="projects">3. Projects &amp; More</button>
+          <button class="editor-tab" data-tab="layout">4. Style &amp; Layout</button>
+        </nav>
+
+        <div id="editorContent" class="editor-body"></div>
+      </aside>
+
+      <!-- Right Preview Pane -->
+      <section class="preview-pane">
+        <div class="preview-toolbar">
+          <div class="preview-mode-tabs">
+            <button id="modeLiveBtn" class="preview-mode-btn active">⚡ Live Design Canvas (0ms)</button>
+            <button id="modePdfBtn" class="preview-mode-btn">📄 True Native PDF View</button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px;">
+            <label style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">
+              Zoom:
+              <select id="zoomSelect" class="studio-select btn-sm" style="margin-left:4px;">
+                <option value="0.75">75%</option>
+                <option value="0.85">85%</option>
+                <option value="1" selected>100%</option>
+                <option value="1.15">115%</option>
+              </select>
+            </label>
+            <button id="btnRefreshPdfPreview" class="btn btn-sm" style="display:none;">↻ Refresh PDF View</button>
+          </div>
+        </div>
+
+        <div id="previewViewport" class="preview-viewport">
+          <div id="liveSheetWrap" class="a4-live-sheet">
+            <div id="cvLiveMount"></div>
+          </div>
+          <iframe id="nativePdfIframe" class="native-pdf-frame" style="display:none;"></iframe>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

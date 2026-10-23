@@ -1,0 +1,481 @@
+{
+  "id": "default-en",
+  "name": "English — Demo Resume",
+  "updatedAt": "2026-10-23T09:03:49.316Z",
+  "header": {
+    "fullName": "Alex Developer",
+    "headline": "Computer Science Student (B.Sc.) · Software & Cloud Engineering",
+    "location": "Frankfurt am Main, Deutschland",
+    "email": "alex.developer@example.com",
+    "phone": "+49 170 1234567",
+    "website": "https://example.com",
+    "github": "https://github.com/example",
+    "linkedin": "https://www.linkedin.com/in/example",
+    "avatar": "/photos/avatar-placeholder.svg",
+    "showAvatar": true,
+    "showSummary": true,
+    "summary": "Dedicated computer science student in a cooperative study model with strong focus on software architecture, distributed systems, and cloud computing. Combines practical hands-on experience in Python, Go, Docker, and CI/CD with structured, analytical problem-solving."
+  },
+  "labels": {
+    "gitCommand": "git log --branches --full-history --stat",
+    "legendMain": "Main Branch",
+    "legendJob": "Berufserfahrung",
+    "legendEdu": "Studium & Bildung",
+    "legendCert": "Zertifikate",
+    "legendOther": "Sonstige",
+    "present": "Heute",
+    "ongoing": "Aktiv",
+    "merge": "Merge",
+    "commit": "Commit",
+    "started": "Start",
+    "grade": "NOTE:",
+    "credential": "Zertifikat ansehen",
+    "dateLocale": "de-DE",
+    "projectsTitle": "Ausgewählte Software- & Engineering-Projekte",
+    "projectsCommand": "git submodule status --projects",
+    "footerSectionTitle": "Sprachen & Persönliches",
+    "footerSectionCommand": "cat environment.conf",
+    "languagesTitle": "Sprachkenntnisse",
+    "interestsTitle": "Interessen & Hobbies"
+  },
+  "layout": {
+    "fontScale": 1,
+    "pageMarginMm": 10,
+    "cardPaddingY": 10,
+    "rowMinHeight": 68,
+    "startRowMinHeight": 44,
+    "colWidth": 22,
+    "graphOffset": 68,
+    "contentIndent": 188,
+    "nodeRadius": 5,
+    "lineWidth": 2.5,
+    "showStartNodes": true,
+    "showLogos": true,
+    "showDescriptions": true,
+    "showSkills": true,
+    "showProjectsSection": false,
+    "showFooterSection": true,
+    "colors": {
+      "main": "#3b82f6",
+      "job": "#10b981",
+      "edu": "#8b5cf6",
+      "cert": "#f59e0b",
+      "other": "#ec4899"
+    }
+  },
+  "entries": [
+    {
+      "id": "thesis-student",
+      "badge": "novatech",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "coop-program",
+      "title": "Bachelor Thesis Student — Cloud Software Architecture",
+      "organization": "Novatech Systems",
+      "location": "Frankfurt am Main",
+      "startDate": "Oct 2026",
+      "endDate": "Present",
+      "priority": 130,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Designing and evaluating an event-driven microservice architecture with Go and Apache Kafka.",
+      "skills": [
+        "Go",
+        "Kafka",
+        "Microservices",
+        "Docker"
+      ]
+    },
+    {
+      "id": "coop-program",
+      "badge": "coop-honors",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "other",
+      "parent": "uni-degree",
+      "title": "Cooperative Talent Program (Dual Track)",
+      "organization": "Talent Foundation e.V.",
+      "location": "Frankfurt am Main",
+      "startDate": "Aug 2025",
+      "endDate": "Present",
+      "priority": 120,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Selective fellowship connecting academic university studies with structured engineering stages at enterprise partner companies.",
+      "skills": [
+        "Agile",
+        "DevOps",
+        "System Design"
+      ]
+    },
+    {
+      "id": "uni-degree",
+      "badge": "bachelor",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Bachelor of Science (B.Sc.) Computer Science",
+      "organization": "University of Applied Sciences",
+      "location": "Frankfurt am Main",
+      "startDate": "Oct 2023",
+      "endDate": "Present",
+      "priority": 110,
+      "grade": "1,4",
+      "url": "",
+      "logo": "",
+      "description": "Specialization in distributed computing, software architecture, and algorithms. Current GPA: 3.8 / 4.0 (1.4).",
+      "skills": [
+        "Java",
+        "C++",
+        "Algorithmen",
+        "Datenbanken"
+      ]
+    },
+    {
+      "id": "partner-stage-2",
+      "badge": "novatech",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "coop-program",
+      "title": "Working Student Cloud Software Engineering",
+      "organization": "Novatech Systems",
+      "location": "Frankfurt am Main",
+      "startDate": "Aug 2026",
+      "endDate": "Sep 2026",
+      "priority": 100,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Automating deployment pipelines and developing CI/CD workflows for containerized services.",
+      "skills": [
+        "Python",
+        "GitLab CI",
+        "Kubernetes",
+        "Linux"
+      ]
+    },
+    {
+      "id": "partner-stage-1",
+      "badge": "novatech",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "coop-program",
+      "title": "Software Developer Intern R&D",
+      "organization": "Novatech Systems",
+      "location": "Frankfurt am Main",
+      "startDate": "Aug 2025",
+      "endDate": "Feb 2026",
+      "priority": 90,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Contributed to internal developer tooling and REST services using Python and FastAPI.",
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker"
+      ]
+    },
+    {
+      "id": "cert-ai",
+      "badge": "ai-cert",
+      "enabled": true,
+      "showStartNode": false,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "cert",
+      "parent": "partner-stage-1",
+      "title": "AI Fundamentals & Prompt Engineering",
+      "organization": "DeepLearning.AI",
+      "location": "Online",
+      "startDate": "Feb 2026",
+      "endDate": "",
+      "priority": 80,
+      "grade": "",
+      "url": "https://example.com/verify/ai-cert",
+      "logo": "",
+      "description": "Foundations of large language models, embedding pipelines, and prompt engineering methods.",
+      "skills": [
+        "Machine Learning",
+        "Prompt Engineering"
+      ]
+    },
+    {
+      "id": "cert-mcp",
+      "badge": "cloud-cert",
+      "enabled": true,
+      "showStartNode": false,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "cert",
+      "parent": "partner-stage-1",
+      "title": "Model Context Protocol & Agent Architecture",
+      "organization": "Cloud Native AI Institute",
+      "location": "Online",
+      "startDate": "Oct 2025",
+      "endDate": "",
+      "priority": 70,
+      "grade": "",
+      "url": "https://example.com/verify/cloud-cert",
+      "logo": "",
+      "description": "Certification in designing standardized tool integration layers and agent communication protocols.",
+      "skills": [
+        "MCP",
+        "Agentic Systems",
+        "APIs"
+      ]
+    },
+    {
+      "id": "hiwi-cs",
+      "badge": "univ-hiwi",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "uni-degree",
+      "title": "Student Assistant (HiWi) — Computer Networks & Operating Systems",
+      "organization": "Institute for Computer Science",
+      "location": "Frankfurt am Main",
+      "startDate": "May 2025",
+      "endDate": "Jul 2025",
+      "priority": 60,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Guided lab exercises in computer networks and assisted students with C and Socket programming.",
+      "skills": [
+        "C",
+        "Linux",
+        "Networking",
+        "Code Review"
+      ]
+    },
+    {
+      "id": "student-job",
+      "badge": "campus-job",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "uni-degree",
+      "title": "Campus IT Support Assistant",
+      "organization": "University IT Services",
+      "location": "Frankfurt am Main",
+      "startDate": "Feb 2024",
+      "endDate": "Mar 2024",
+      "priority": 50,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Maintained computer laboratories, automated Linux provisioning, and diagnosed network setups.",
+      "skills": [
+        "Linux",
+        "Hardware",
+        "Troubleshooting"
+      ]
+    },
+    {
+      "id": "pre-college",
+      "badge": "college",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "University Entrance Qualification (Technology & CS)",
+      "organization": "Technical College",
+      "location": "Frankfurt am Main",
+      "startDate": "Sep 2022",
+      "endDate": "Jul 2023",
+      "priority": 40,
+      "grade": "1,0",
+      "url": "",
+      "logo": "",
+      "description": "Graduated top of class (Grade 1.0 / 4.0 GPA) with focus on engineering and applied mathematics.",
+      "skills": [
+        "Mathematik",
+        "Physik",
+        "Grundlagen Informatik"
+      ]
+    },
+    {
+      "id": "junior-clerk",
+      "badge": "admin-job",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "main",
+      "title": "Commercial Associate — Financial Operations",
+      "organization": "Delta Industrie GmbH",
+      "location": "Bad Homburg",
+      "startDate": "Aug 2021",
+      "endDate": "Aug 2022",
+      "priority": 30,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Responsible for process digitization, automated financial reporting using Excel/VBA, and ERP workflows.",
+      "skills": [
+        "Excel",
+        "ERP",
+        "Prozessautomatisierung"
+      ]
+    },
+    {
+      "id": "vocational-degree",
+      "badge": "vocational",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Vocational Degree in Industrial Management (IHK)",
+      "organization": "Delta Industrie GmbH & IHK",
+      "location": "Bad Homburg",
+      "startDate": "Sep 2018",
+      "endDate": "Jul 2021",
+      "priority": 20,
+      "grade": "92/100 Punkte",
+      "url": "",
+      "logo": "",
+      "description": "Dual vocational training covering logistics, procurement, and enterprise software systems. Graduated with honors.",
+      "skills": [
+        "Betriebswirtschaft",
+        "Logistik",
+        "ERP"
+      ]
+    },
+    {
+      "id": "secondary-school",
+      "badge": "school",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Secondary School Certificate",
+      "organization": "Secondary School",
+      "location": "Frankfurt am Main",
+      "startDate": "Sep 2012",
+      "endDate": "Jul 2018",
+      "priority": 10,
+      "grade": "1,3",
+      "url": "",
+      "logo": "",
+      "description": "Graduated top of class with focus on economics and information technology.",
+      "skills": [
+        "Informatik",
+        "Rechnungswesen",
+        "Englisch"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "airquality-hub",
+      "enabled": true,
+      "name": "AirQuality IoT Platform",
+      "type": "IoT / Embedded Systems",
+      "year": "2025",
+      "repo": "https://github.com/example/airquality-iot",
+      "demo": "",
+      "excerpt": "Local real-time indoor air quality monitoring platform with ESP32 sensors, MQTT broker, C++ unit tests, and React/FastAPI Docker dashboard.",
+      "tags": [
+        "IoT",
+        "ESP32",
+        "C++",
+        "Python",
+        "MQTT",
+        "Docker",
+        "React"
+      ]
+    },
+    {
+      "id": "stream-discovery",
+      "enabled": true,
+      "name": "StreamDiscovery App",
+      "type": "Web Application",
+      "year": "2025",
+      "repo": "https://github.com/example/stream-discovery",
+      "demo": "https://example.com",
+      "excerpt": "Reactive streaming discovery single-page app with multi-criteria filtering, TMDB API integration, and full i18n localization.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite",
+        "REST API"
+      ]
+    },
+    {
+      "id": "computer-vision-scoring",
+      "enabled": true,
+      "name": "Vision Autoscoring System",
+      "type": "Computer Vision / Hardware",
+      "year": "2024",
+      "repo": "https://github.com/example/vision-autoscoring",
+      "demo": "",
+      "excerpt": "Autonomous dartboard scoring apparatus with synchronized USB camera feeds, computer vision tracking algorithms, and 3D-printed housing.",
+      "tags": [
+        "Computer Vision",
+        "OpenCV",
+        "Python",
+        "Hardware",
+        "3D-Druck"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "German",
+      "level": "Native"
+    },
+    {
+      "language": "English",
+      "level": "Full Professional Proficiency (C1)"
+    },
+    {
+      "enabled": true,
+      "language": "Spanish",
+      "level": "Elementary"
+    }
+  ],
+  "interests": [
+    {
+      "title": "Athletics & Fitness",
+      "detail": "Running, half marathon endurance training, padel tennis, and calisthenics"
+    },
+    {
+      "title": "Photography & Travel",
+      "detail": "Street and architectural photography, exploring European cultural capitals"
+    },
+    {
+      "title": "Maker & Open Source",
+      "detail": "Home automation hardware, 3D printing, and maintaining self-hosted Linux home-lab"
+    }
+  ]
+}

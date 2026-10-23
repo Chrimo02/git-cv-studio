@@ -1,0 +1,481 @@
+{
+  "id": "default-de",
+  "name": "Deutsch — Muster-Lebenslauf",
+  "updatedAt": "2026-10-23T09:03:49.316Z",
+  "header": {
+    "fullName": "Alex Developer",
+    "headline": "Informatik Student (B.Sc.) · Software & Cloud Engineering",
+    "location": "Frankfurt am Main, Deutschland",
+    "email": "alex.developer@example.com",
+    "phone": "+49 170 1234567",
+    "website": "https://example.com",
+    "github": "https://github.com/example",
+    "linkedin": "https://www.linkedin.com/in/example",
+    "avatar": "/photos/avatar-placeholder.svg",
+    "showAvatar": true,
+    "showSummary": true,
+    "summary": "Ambitionierter Informatikstudent im kooperativen Studienmodell mit starkem Fokus auf moderne Software-Architektur, verteilte Systeme und Cloud-Technologien. Verbindet praktische Erfahrung in Python, Go, Docker und CI/CD mit einer strukturierten, analytischen Arbeitsweise."
+  },
+  "labels": {
+    "gitCommand": "git log --branches --full-history --stat",
+    "legendMain": "Main Branch",
+    "legendJob": "Berufserfahrung",
+    "legendEdu": "Studium & Bildung",
+    "legendCert": "Zertifikate",
+    "legendOther": "Sonstige",
+    "present": "Heute",
+    "ongoing": "Aktiv",
+    "merge": "Merge",
+    "commit": "Commit",
+    "started": "Start",
+    "grade": "NOTE:",
+    "credential": "Zertifikat ansehen",
+    "dateLocale": "de-DE",
+    "projectsTitle": "Ausgewählte Software- & Engineering-Projekte",
+    "projectsCommand": "git submodule status --projects",
+    "footerSectionTitle": "Sprachen & Persönliches",
+    "footerSectionCommand": "cat environment.conf",
+    "languagesTitle": "Sprachkenntnisse",
+    "interestsTitle": "Interessen & Hobbies"
+  },
+  "layout": {
+    "fontScale": 1,
+    "pageMarginMm": 10,
+    "cardPaddingY": 10,
+    "rowMinHeight": 68,
+    "startRowMinHeight": 44,
+    "colWidth": 22,
+    "graphOffset": 68,
+    "contentIndent": 188,
+    "nodeRadius": 5,
+    "lineWidth": 2.5,
+    "showStartNodes": true,
+    "showLogos": true,
+    "showDescriptions": true,
+    "showSkills": true,
+    "showProjectsSection": false,
+    "showFooterSection": true,
+    "colors": {
+      "main": "#3b82f6",
+      "job": "#10b981",
+      "edu": "#8b5cf6",
+      "cert": "#f59e0b",
+      "other": "#ec4899"
+    }
+  },
+  "entries": [
+    {
+      "id": "thesis-student",
+      "badge": "novatech",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "coop-program",
+      "title": "Bachelorand — Cloud Software Architecture",
+      "organization": "Novatech Systems",
+      "location": "Frankfurt am Main",
+      "startDate": "Oct 2026",
+      "endDate": "Present",
+      "priority": 130,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Konzeption und prototypische Evaluation einer eventgetriebenen Microservice-Architektur mit Go und Apache Kafka.",
+      "skills": [
+        "Go",
+        "Kafka",
+        "Microservices",
+        "Docker"
+      ]
+    },
+    {
+      "id": "coop-program",
+      "badge": "coop-honors",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "other",
+      "parent": "uni-degree",
+      "title": "Cooperative Talent Program (Dual Track)",
+      "organization": "Talent Foundation e.V.",
+      "location": "Frankfurt am Main",
+      "startDate": "Aug 2025",
+      "endDate": "Present",
+      "priority": 120,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Ausgewähltes Förderprogramm zur Verbindung von universitärem Studium und kontinuierlicher Praxiserfahrung in Partnerunternehmen.",
+      "skills": [
+        "Agile",
+        "DevOps",
+        "System Design"
+      ]
+    },
+    {
+      "id": "uni-degree",
+      "badge": "bachelor",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Bachelor of Science (B.Sc.) Informatik",
+      "organization": "Hochschule für Angewandte Wissenschaften",
+      "location": "Frankfurt am Main",
+      "startDate": "Oct 2023",
+      "endDate": "Present",
+      "priority": 110,
+      "grade": "1,4",
+      "url": "",
+      "logo": "",
+      "description": "Schwerpunkte: Verteilte Systeme, Software-Architektur und Algorithmen. Aktueller Notendurchschnitt: 1,4.",
+      "skills": [
+        "Java",
+        "C++",
+        "Algorithmen",
+        "Datenbanken"
+      ]
+    },
+    {
+      "id": "partner-stage-2",
+      "badge": "novatech",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "coop-program",
+      "title": "Werkstudent Cloud Software Engineering",
+      "organization": "Novatech Systems",
+      "location": "Frankfurt am Main",
+      "startDate": "Aug 2026",
+      "endDate": "Sep 2026",
+      "priority": 100,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Entwicklung von Automatisierungsskripten und CI/CD-Pipelines für Container-Deployments.",
+      "skills": [
+        "Python",
+        "GitLab CI",
+        "Kubernetes",
+        "Linux"
+      ]
+    },
+    {
+      "id": "partner-stage-1",
+      "badge": "novatech",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "coop-program",
+      "title": "Praktikant Softwareentwicklung R&D",
+      "organization": "Novatech Systems",
+      "location": "Frankfurt am Main",
+      "startDate": "Aug 2025",
+      "endDate": "Feb 2026",
+      "priority": 90,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Mitarbeit an internen Developer-Tools und REST-APIs mit Python und FastAPI.",
+      "skills": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker"
+      ]
+    },
+    {
+      "id": "cert-ai",
+      "badge": "ai-cert",
+      "enabled": true,
+      "showStartNode": false,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "cert",
+      "parent": "partner-stage-1",
+      "title": "AI Fundamentals & Prompt Engineering",
+      "organization": "DeepLearning.AI",
+      "location": "Online",
+      "startDate": "Feb 2026",
+      "endDate": "",
+      "priority": 80,
+      "grade": "",
+      "url": "https://example.com/verify/ai-cert",
+      "logo": "",
+      "description": "Grundlagen moderner LLMs, Embedding-Pipelines und Prompt Engineering Techniken.",
+      "skills": [
+        "Machine Learning",
+        "Prompt Engineering"
+      ]
+    },
+    {
+      "id": "cert-mcp",
+      "badge": "cloud-cert",
+      "enabled": true,
+      "showStartNode": false,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "cert",
+      "parent": "partner-stage-1",
+      "title": "Model Context Protocol & Agent Architecture",
+      "organization": "Cloud Native AI Institute",
+      "location": "Online",
+      "startDate": "Oct 2025",
+      "endDate": "",
+      "priority": 70,
+      "grade": "",
+      "url": "https://example.com/verify/cloud-cert",
+      "logo": "",
+      "description": "Zertifizierung über Entwurf und Implementierung standardisierter Tool-Schnittstellen für KI-Agenten.",
+      "skills": [
+        "MCP",
+        "Agentic Systems",
+        "APIs"
+      ]
+    },
+    {
+      "id": "hiwi-cs",
+      "badge": "univ-hiwi",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "uni-degree",
+      "title": "Studentische Hilfskraft (HiWi) — Rechnernetze & Betriebssysteme",
+      "organization": "Institut für Informatik",
+      "location": "Frankfurt am Main",
+      "startDate": "May 2025",
+      "endDate": "Jul 2025",
+      "priority": 60,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Betreuung von Übungsgruppen im Modul Rechnernetze, Code-Reviews für studentische Abgaben.",
+      "skills": [
+        "C",
+        "Linux",
+        "Networking",
+        "Code Review"
+      ]
+    },
+    {
+      "id": "student-job",
+      "badge": "campus-job",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "uni-degree",
+      "title": "Aushilfskraft IT-Support & Campus-Services",
+      "organization": "Campus IT-Zentrum",
+      "location": "Frankfurt am Main",
+      "startDate": "Feb 2024",
+      "endDate": "Mar 2024",
+      "priority": 50,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Unterstützung bei der Wartung von Pool-Rechnern, Linux-Installation und Netzwerkdiagnose.",
+      "skills": [
+        "Linux",
+        "Hardware",
+        "Troubleshooting"
+      ]
+    },
+    {
+      "id": "pre-college",
+      "badge": "college",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Fachhochschulreife (Technik & Informatik)",
+      "organization": "Berufliche Oberschule",
+      "location": "Frankfurt am Main",
+      "startDate": "Sep 2022",
+      "endDate": "Jul 2023",
+      "priority": 40,
+      "grade": "1,0",
+      "url": "",
+      "logo": "",
+      "description": "Schwerpunkt Technik und angewandte Mathematik. Abschluss als Jahrgangsbester mit 1,0.",
+      "skills": [
+        "Mathematik",
+        "Physik",
+        "Grundlagen Informatik"
+      ]
+    },
+    {
+      "id": "junior-clerk",
+      "badge": "admin-job",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "job",
+      "parent": "main",
+      "title": "Kaufmännischer Angestellter — Financial Administration",
+      "organization": "Delta Industrie GmbH",
+      "location": "Bad Homburg",
+      "startDate": "Aug 2021",
+      "endDate": "Aug 2022",
+      "priority": 30,
+      "grade": "",
+      "url": "",
+      "logo": "",
+      "description": "Verantwortung für Prozessdigitalisierung, automatisierte Berichterstellung mit Excel/VBA und Buchhaltung.",
+      "skills": [
+        "Excel",
+        "ERP",
+        "Prozessautomatisierung"
+      ]
+    },
+    {
+      "id": "vocational-degree",
+      "badge": "vocational",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Ausbildung zum Industriekaufmann (IHK)",
+      "organization": "Delta Industrie GmbH & IHK",
+      "location": "Bad Homburg",
+      "startDate": "Sep 2018",
+      "endDate": "Jul 2021",
+      "priority": 20,
+      "grade": "92/100 Punkte",
+      "url": "",
+      "logo": "",
+      "description": "Schwerpunkte in Einkauf, Logistik und IT-Systemen. Erfolgreicher IHK-Abschluss mit Auszeichnung.",
+      "skills": [
+        "Betriebswirtschaft",
+        "Logistik",
+        "ERP"
+      ]
+    },
+    {
+      "id": "secondary-school",
+      "badge": "school",
+      "enabled": true,
+      "showStartNode": true,
+      "showDescription": true,
+      "showSkills": true,
+      "category": "edu",
+      "parent": "main",
+      "title": "Mittlere Reife (Realschulabschluss)",
+      "organization": "Städtische Realschule",
+      "location": "Frankfurt am Main",
+      "startDate": "Sep 2012",
+      "endDate": "Jul 2018",
+      "priority": 10,
+      "grade": "1,3",
+      "url": "",
+      "logo": "",
+      "description": "Wahlpflichtfächergruppe Wirtschaft und Informationstechnologie. Abschluss als Klassenbester.",
+      "skills": [
+        "Informatik",
+        "Rechnungswesen",
+        "Englisch"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "airquality-hub",
+      "enabled": true,
+      "name": "AirQuality IoT Platform",
+      "type": "IoT / Embedded Systems",
+      "year": "2025",
+      "repo": "https://github.com/example/airquality-iot",
+      "demo": "",
+      "excerpt": "Lokales Echtzeit-IoT-System zur Raumluftüberwachung mit ESP32-Controllern, MQTT-Bus, C++ Unit-Tests und React/FastAPI-Dashboard in Docker.",
+      "tags": [
+        "IoT",
+        "ESP32",
+        "C++",
+        "Python",
+        "MQTT",
+        "Docker",
+        "React"
+      ]
+    },
+    {
+      "id": "stream-discovery",
+      "enabled": true,
+      "name": "StreamDiscovery App",
+      "type": "Web Application",
+      "year": "2025",
+      "repo": "https://github.com/example/stream-discovery",
+      "demo": "https://example.com",
+      "excerpt": "Reaktive Film- und Serien-Entdeckungsplattform mit Multi-Kriterien-Filter, TMDB-API-Integration und vollständiger i18n-Mehrsprachigkeit.",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Vite",
+        "REST API"
+      ]
+    },
+    {
+      "id": "computer-vision-scoring",
+      "enabled": true,
+      "name": "Vision Autoscoring System",
+      "type": "Computer Vision / Hardware",
+      "year": "2024",
+      "repo": "https://github.com/example/vision-autoscoring",
+      "demo": "",
+      "excerpt": "Autonomes Bilderkennungssystem mit synchronisierten USB-Kameras, OpenCV-Pipelines und adressierbarer LED-Ringleuchte zur Bewegungsauswertung.",
+      "tags": [
+        "Computer Vision",
+        "OpenCV",
+        "Python",
+        "Hardware",
+        "3D-Druck"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Deutsch",
+      "level": "Muttersprache"
+    },
+    {
+      "language": "Englisch",
+      "level": "Fließend in Wort und Schrift (C1)"
+    },
+    {
+      "enabled": true,
+      "language": "Spanisch",
+      "level": "Grundkenntnisse"
+    }
+  ],
+  "interests": [
+    {
+      "title": "Sport & Fitness",
+      "detail": "Laufen, Halbmarathontraining, Padel-Tennis und Calisthenics"
+    },
+    {
+      "title": "Fotografie & Reisen",
+      "detail": "Street- und Architekturfotografie, europäische Städte erkunden"
+    },
+    {
+      "title": "Maker & Open-Source",
+      "detail": "Smart-Home-Sensoren basteln, 3D-Druck, Linux-Server administrieren"
+    }
+  ]
+}

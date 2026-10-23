@@ -1,0 +1,18 @@
+node_modules/
+.DS_Store
+*.log
+exports/*.pdf
+
+# Local backups
+.backup_personal/
+
+# Profiles: keep only default demo profiles tracked, ignore all custom/personal profiles
+data/profiles/*
+!data/profiles/default-de.json
+!data/profiles/default-en.json
+!data/profiles/.gitkeep
+
+# Photos: ignore personal resume photos and uploaded assets
+public/photos/resume/
+public/photos/uploads/*
+!public/photos/uploads/.gitkeep
