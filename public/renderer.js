@@ -8,6 +8,197 @@ export const DEFAULT_COLORS = {
   other: '#ec4899',
 };
 
+export const FONT_FAMILIES = {
+  // --- Modern Sans-Serif ---
+  inter: {
+    id: 'inter',
+    category: 'Modern Sans-Serif',
+    label: 'Inter (Modern Sans — Tech Standard)',
+    body: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    heading: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  },
+  system: {
+    id: 'system',
+    category: 'Modern Sans-Serif',
+    label: 'System Native (SF Pro / Segoe UI / Apple)',
+    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  },
+  roboto: {
+    id: 'roboto',
+    category: 'Modern Sans-Serif',
+    label: 'Roboto (Neutral Sans — Clean & Corporate)',
+    body: '"Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+    heading: '"Roboto", "Helvetica Neue", Arial, sans-serif',
+  },
+  helvetica: {
+    id: 'helvetica',
+    category: 'Modern Sans-Serif',
+    label: 'Helvetica Neue (Swiss Modernism — Timeless)',
+    body: '"Helvetica Neue", Helvetica, Arial, -apple-system, sans-serif',
+    heading: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+  },
+  avenir: {
+    id: 'avenir',
+    category: 'Modern Sans-Serif',
+    label: 'Avenir Next (Geometric Modern — Tech & Product)',
+    body: '"Avenir Next", Avenir, "Century Gothic", -apple-system, sans-serif',
+    heading: '"Avenir Next", Avenir, "Century Gothic", sans-serif',
+  },
+  futura: {
+    id: 'futura',
+    category: 'Modern Sans-Serif',
+    label: 'Futura (Bauhaus Geometric — Clean & Striking)',
+    body: '"Futura", "Century Gothic", -apple-system, sans-serif',
+    heading: '"Futura", "Century Gothic", sans-serif',
+  },
+  trebuchet: {
+    id: 'trebuchet',
+    category: 'Modern Sans-Serif',
+    label: 'Trebuchet MS (Humanist Sans — Warm & Clear)',
+    body: '"Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", sans-serif',
+    heading: '"Trebuchet MS", "Lucida Grande", sans-serif',
+  },
+  gill: {
+    id: 'gill',
+    category: 'Modern Sans-Serif',
+    label: 'Gill Sans (British Modernist — Balanced & Classic)',
+    body: '"Gill Sans", "Gill Sans MT", Calibri, sans-serif',
+    heading: '"Gill Sans", "Gill Sans MT", sans-serif',
+  },
+  verdana: {
+    id: 'verdana',
+    category: 'Modern Sans-Serif',
+    label: 'Verdana (Screen Legibility — Open & Crisp)',
+    body: '"Verdana", Geneva, -apple-system, sans-serif',
+    heading: '"Verdana", Geneva, sans-serif',
+  },
+  optima: {
+    id: 'optima',
+    category: 'Modern Sans-Serif',
+    label: 'Optima (Humanist Hybrid — Executive Grace)',
+    body: '"Optima", Candara, "Segoe UI", sans-serif',
+    heading: '"Optima", Candara, sans-serif',
+  },
+
+  // --- Editorial & Classic Serif ---
+  fraunces: {
+    id: 'fraunces',
+    category: 'Editorial & Classic Serif',
+    label: 'Fraunces (Editorial Serif — Elegant & Warm)',
+    body: '"Fraunces", Georgia, "Times New Roman", serif',
+    heading: '"Fraunces", Georgia, serif',
+  },
+  georgia: {
+    id: 'georgia',
+    category: 'Editorial & Classic Serif',
+    label: 'Georgia (Classic Editorial — Balanced & Literary)',
+    body: '"Georgia", "Times New Roman", serif',
+    heading: '"Georgia", serif',
+  },
+  garamond: {
+    id: 'garamond',
+    category: 'Editorial & Classic Serif',
+    label: 'EB Garamond (Prestigious Serif — Academic Standard)',
+    body: '"EB Garamond", Garamond, "Baskerville", "Times New Roman", serif',
+    heading: '"EB Garamond", Garamond, serif',
+  },
+  merriweather: {
+    id: 'merriweather',
+    category: 'Editorial & Classic Serif',
+    label: 'Merriweather (Book Serif — Sturdy & Formal)',
+    body: '"Merriweather", Georgia, "Times New Roman", serif',
+    heading: '"Merriweather", Georgia, serif',
+  },
+  palatino: {
+    id: 'palatino',
+    category: 'Editorial & Classic Serif',
+    label: 'Palatino Linotype (Book Antiqua — Renaissance Style)',
+    body: '"Palatino Linotype", "Book Antiqua", Palatino, serif',
+    heading: '"Palatino Linotype", "Book Antiqua", Palatino, serif',
+  },
+  charter: {
+    id: 'charter',
+    category: 'Editorial & Classic Serif',
+    label: 'Charter (Bitstream Charter — Sharp & Authoritative)',
+    body: '"Charter", "Bitstream Charter", Georgia, serif',
+    heading: '"Charter", "Bitstream Charter", Georgia, serif',
+  },
+  didot: {
+    id: 'didot',
+    category: 'Editorial & Classic Serif',
+    label: 'Didot / Bodoni (High-Fashion — Luxury Contrast)',
+    body: '"Didot", "Bodoni MT", "Times New Roman", serif',
+    heading: '"Didot", "Bodoni MT", serif',
+  },
+  baskerville: {
+    id: 'baskerville',
+    category: 'Editorial & Classic Serif',
+    label: 'Baskerville (Traditional British Serif — Refined)',
+    body: '"Baskerville", "Baskerville Old Face", "Hoefler Text", Garamond, serif',
+    heading: '"Baskerville", "Hoefler Text", serif',
+  },
+
+  // --- Developer & Monospace ---
+  mono: {
+    id: 'mono',
+    category: 'Developer & Monospace',
+    label: 'JetBrains Mono (Developer Mode — Full Code Style)',
+    body: '"JetBrains Mono", Menlo, Monaco, Consolas, monospace',
+    heading: '"JetBrains Mono", monospace',
+  },
+  fira: {
+    id: 'fira',
+    category: 'Developer & Monospace',
+    label: 'Fira Code (Modern Tech Mono — Clean Code)',
+    body: '"Fira Code", "Fira Mono", "Menlo", Monaco, monospace',
+    heading: '"Fira Code", "Fira Mono", monospace',
+  },
+  courier: {
+    id: 'courier',
+    category: 'Developer & Monospace',
+    label: 'Courier Prime (Typewriter Monospace — Engineering)',
+    body: '"Courier New", Courier, monospace',
+    heading: '"Courier New", Courier, monospace',
+  },
+  vt323: {
+    id: 'vt323',
+    category: 'Developer & Monospace',
+    label: 'VT323 (8-Bit Retro Terminal — Hacker Vibe)',
+    body: '"VT323", monospace',
+    heading: '"VT323", monospace',
+  },
+};
+
+export const CONTACT_ICONS = {
+  loc: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+  mail: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+  tel: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+  web: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>`,
+  git: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`,
+  in: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>`,
+  link: `<svg class="cv-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`,
+};
+
+export function isDarkHexColor(hex) {
+  if (!hex || typeof hex !== 'string') return false;
+  const clean = hex.replace('#', '').trim();
+  if (clean.length !== 3 && clean.length !== 6) return false;
+  const full =
+    clean.length === 3
+      ? clean
+          .split('')
+          .map((c) => c + c)
+          .join('')
+      : clean;
+  const r = parseInt(full.slice(0, 2), 16);
+  const g = parseInt(full.slice(2, 4), 16);
+  const b = parseInt(full.slice(4, 6), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return false;
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return lum < 0.52;
+}
+
 export function escapeHtml(str) {
   if (str === null || str === undefined) return '';
   return String(str)
@@ -160,6 +351,7 @@ export function computeGitGraph(profile) {
     const cat = entry.category || 'job';
     const isCert = cat === 'cert';
     const showStart = !isCert && globalShowStart && entry.showStartNode !== false;
+    const entryOrder = (profile.entries || []).indexOf(entry);
 
     if (isCert) {
       rawCommits.push({
@@ -170,6 +362,7 @@ export function computeGitGraph(profile) {
         entry,
         category: cat,
         priority: prio,
+        entryOrder,
       });
     } else if (!showStart) {
       const ongoing = isOngoingDate(entry.endDate);
@@ -181,6 +374,7 @@ export function computeGitGraph(profile) {
         entry,
         category: cat,
         priority: prio,
+        entryOrder,
         singleCommitMode: true,
       });
     } else {
@@ -194,6 +388,7 @@ export function computeGitGraph(profile) {
           entry,
           category: cat,
           priority: prio,
+          entryOrder,
         });
       } else {
         rawCommits.push({
@@ -204,6 +399,7 @@ export function computeGitGraph(profile) {
           entry,
           category: cat,
           priority: prio,
+          entryOrder,
         });
       }
       rawCommits.push({
@@ -214,6 +410,7 @@ export function computeGitGraph(profile) {
         entry,
         category: cat,
         priority: prio,
+        entryOrder,
       });
     }
   });
@@ -237,14 +434,32 @@ export function computeGitGraph(profile) {
 
   // Sort ASCENDING (Oldest first) to build graph topology
   rawCommits.sort((a, b) => {
-    const diff = a.date.valueOf() - b.date.valueOf();
-    if (diff !== 0) return diff;
+    // 1. If start commits, ancestor branch starts before descendant branch
     if (a.type === 'start' && b.type === 'start') {
       if (isAncestor(b.parent, a.id)) return -1;
       if (isAncestor(a.parent, b.id)) return 1;
     }
+    // 2. An entry start node must always be processed before its own end/ongoing card in ascending pass
+    if (a.id === b.id) {
+      if (a.type === 'start') return -1;
+      if (b.type === 'start') return 1;
+    }
+    // 3. For card commits (end, ongoing, point):
+    // In manual sort mode (default) or when dates match, user-defined list order determines position!
+    if (a.type !== 'start' && b.type !== 'start') {
+      const diff = a.date.valueOf() - b.date.valueOf();
+      if (diff === 0 || layout.manualSort !== false) {
+        const orderDiff = (b.entryOrder ?? 0) - (a.entryOrder ?? 0);
+        if (orderDiff !== 0) return orderDiff;
+      }
+    }
+    // 4. Default / fallback date comparison
+    const diff = a.date.valueOf() - b.date.valueOf();
+    if (diff !== 0) return diff;
     if (a.type === 'start' && b.type !== 'start') return -1;
     if (a.type !== 'start' && b.type === 'start') return 1;
+    const orderDiff = (b.entryOrder ?? 0) - (a.entryOrder ?? 0);
+    if (orderDiff !== 0) return orderDiff;
     const prioDiff = (a.priority || 0) - (b.priority || 0);
     if (prioDiff !== 0) return prioDiff;
     return 0;
@@ -332,28 +547,49 @@ export function renderCvBodyHtml(profile) {
   const LINE_W = Number(layout.lineWidth) || 2.5;
   const ROW_MIN_H = Number(layout.rowMinHeight) || 68;
   const START_ROW_MIN_H = Number(layout.startRowMinHeight) || 44;
-  const CARD_PAD_Y = Number(layout.cardPaddingY) ?? 10;
+  const CARD_PAD_Y = Number(layout.cardPaddingY ?? 10);
   const NODE_Y = Math.max(18, Math.round(CARD_PAD_Y + 14));
 
   const contactItems = [];
+  const buildContact = (keyId, value, { href = '', strong = false, external = false } = {}) => {
+    const iconHtml = CONTACT_ICONS[keyId] || CONTACT_ICONS.link;
+    const valHtml = `<span class="cv-contact-val${strong ? ' cv-contact-strong' : ''}">${escapeHtml(value)}</span>`;
+    const fullClass = keyId === 'in' ? ' cv-contact-fullwidth' : '';
+    if (href) {
+      const ext = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return `<a href="${escapeHtml(href)}"${ext} class="cv-contact-item cv-link${fullClass}">${iconHtml}${valHtml}</a>`;
+    }
+    return `<span class="cv-contact-item${fullClass}">${iconHtml}${valHtml}</span>`;
+  };
   if (header.showLocation !== false && header.location) {
-    contactItems.push(`<span class="cv-contact-item"><span class="cv-contact-key">loc:</span><span>${escapeHtml(header.location)}</span></span>`);
+    contactItems.push(buildContact('loc', header.location));
   }
   if (header.showEmail !== false && header.email) {
-    contactItems.push(`<a href="mailto:${escapeHtml(header.email)}" class="cv-contact-item cv-link"><span class="cv-contact-key">mail:</span><span class="cv-contact-strong">${escapeHtml(header.email)}</span></a>`);
+    contactItems.push(buildContact('mail', header.email, { href: `mailto:${header.email}`, strong: true }));
   }
   if (header.showPhone !== false && header.phone && String(header.phone).trim() !== '') {
-    contactItems.push(`<a href="tel:${escapeHtml(header.phone)}" class="cv-contact-item cv-link"><span class="cv-contact-key">tel:</span><span>${escapeHtml(header.phone)}</span></a>`);
+    contactItems.push(buildContact('tel', header.phone, { href: `tel:${header.phone}` }));
   }
   if (header.showWebsite !== false && header.website) {
-    contactItems.push(`<a href="${escapeHtml(header.website)}" target="_blank" rel="noopener noreferrer" class="cv-contact-item cv-link"><span class="cv-contact-key">web:</span><span class="cv-contact-strong">${escapeHtml(cleanUrlDisplay(header.website))}</span></a>`);
+    contactItems.push(buildContact('web', cleanUrlDisplay(header.website), { href: header.website, strong: true, external: true }));
   }
   if (header.showGithub !== false && header.github) {
-    contactItems.push(`<a href="${escapeHtml(header.github)}" target="_blank" rel="noopener noreferrer" class="cv-contact-item cv-link"><span class="cv-contact-key">git:</span><span>${escapeHtml(cleanUrlDisplay(header.github))}</span></a>`);
+    contactItems.push(buildContact('git', cleanUrlDisplay(header.github), { href: header.github, external: true }));
   }
   if (header.showLinkedin !== false && header.linkedin) {
-    contactItems.push(`<a href="${escapeHtml(header.linkedin)}" target="_blank" rel="noopener noreferrer" class="cv-contact-item cv-link"><span class="cv-contact-key">in:</span><span>${escapeHtml(cleanUrlDisplay(header.linkedin))}</span></a>`);
+    contactItems.push(buildContact('in', cleanUrlDisplay(header.linkedin), { href: header.linkedin, external: true }));
   }
+  (header.customContacts || []).forEach((c) => {
+    if (!c || c.enabled === false || !String(c.value || '').trim()) return;
+    const iconHtml = CONTACT_ICONS.link;
+    const valHtml = `<span class="cv-contact-val">${escapeHtml(c.value)}</span>`;
+    const url = String(c.url || '').trim();
+    contactItems.push(
+      url
+        ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="cv-contact-item cv-link">${iconHtml}${valHtml}</a>`
+        : `<span class="cv-contact-item">${iconHtml}${valHtml}</span>`
+    );
+  });
 
   // Top active branches extension SVG
   let topExtensionHtml = '';
@@ -380,7 +616,7 @@ export function renderCvBodyHtml(profile) {
 
   // Commit rows
   const commitRowsHtml = processedCommits
-    .map((c) => {
+    .map((c, commitIdx) => {
       const incoming = c.activeAfter;
       const outgoing = c.activeBefore;
       const commitColor = branchColors[c.id] || colors.main;
@@ -390,6 +626,24 @@ export function renderCvBodyHtml(profile) {
         c.type === 'ongoing'
           ? labels.present || 'Present'
           : formatShortDate(c.date, locale);
+
+      const incomingBridgeSvg = incoming
+        .map((branchId) => {
+          const bCol = branchCols[branchId] || 0;
+          const bColor = branchColors[branchId] || colors.main;
+          const x = bCol * COL_W + X_OFFSET;
+          return `<line x1="${x}" y1="0" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
+        })
+        .join('');
+
+      const outgoingBridgeSvg = outgoing
+        .map((branchId) => {
+          const bCol = branchCols[branchId] || 0;
+          const bColor = branchColors[branchId] || colors.main;
+          const x = bCol * COL_W + X_OFFSET;
+          return `<line x1="${x}" y1="0" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
+        })
+        .join('');
 
       // SVG pass-through lines
       const passThroughSvg = incoming
@@ -429,8 +683,10 @@ export function renderCvBodyHtml(profile) {
         `;
       }
 
+      const isDarkDoc = Boolean(layout.darkMode);
+      const nodeFillColor = isDarkDoc ? '#0f1117' : '#FFFFFF';
       const nodeCenterX = c.type === 'ongoing' && !c.singleCommitMode ? colX : parentX;
-      const nodeCircleSvg = `<circle cx="${nodeCenterX}" cy="${NODE_Y}" r="${NODE_R}" fill="#FFFFFF" stroke="${commitColor}" stroke-width="3.2" />`;
+      const nodeCircleSvg = `<circle cx="${nodeCenterX}" cy="${NODE_Y}" r="${NODE_R}" fill="${nodeFillColor}" stroke="${commitColor}" stroke-width="3.2" />`;
 
       let rightContentHtml = '';
       if (isStartNode) {
@@ -514,7 +770,18 @@ export function renderCvBodyHtml(profile) {
       const padY = isStartNode ? Math.max(4, Math.round(CARD_PAD_Y * 0.65)) : CARD_PAD_Y;
 
       return `
-        <div class="cv-commit-row" style="min-height:${rowMin}px;">
+        ${
+          commitIdx > 0
+            ? `<div class="cv-page-break-top" data-commit-idx="${commitIdx}">
+                <div class="cv-graph-col" style="top:0; bottom:-1px;">
+                  <svg width="100%" height="100%" class="cv-svg-block">
+                    ${incomingBridgeSvg}
+                  </svg>
+                </div>
+              </div>`
+            : ''
+        }
+        <div class="cv-commit-row" data-commit-idx="${commitIdx}" style="min-height:${rowMin}px;">
           <div class="cv-node-date" style="top:${NODE_Y - 5}px; width:${Math.max(42, X_OFFSET - 12)}px;">
             ${escapeHtml(nodeDateText)}
           </div>
@@ -525,10 +792,21 @@ export function renderCvBodyHtml(profile) {
               ${nodeCircleSvg}
             </svg>
           </div>
-          <div class="cv-card-col ${isStartNode ? 'cv-card-start' : 'cv-card-detail'}" style="padding-left:${CONTENT_INDENT}px; padding-top:${padY}px; padding-bottom:${padY}px;">
+          <div class="cv-card-col ${isStartNode ? 'cv-card-start' : 'cv-card-detail'}" style="margin-left:${CONTENT_INDENT}px; padding-top:${padY}px; padding-bottom:${padY}px;">
             ${rightContentHtml}
           </div>
         </div>
+        ${
+          commitIdx < processedCommits.length - 1
+            ? `<div class="cv-page-break-bottom" data-commit-idx="${commitIdx}">
+                <div class="cv-graph-col" style="top:-1px; bottom:0;">
+                  <svg width="100%" height="100%" class="cv-svg-block">
+                    ${outgoingBridgeSvg}
+                  </svg>
+                </div>
+              </div>`
+            : ''
+        }
       `;
     })
     .join('');
@@ -598,6 +876,18 @@ export function renderCvBodyHtml(profile) {
     ? (profile?.interests || []).filter((it) => it && it.enabled !== false)
     : [];
 
+  const isDark = Boolean(layout.darkMode);
+  const showHeaderBg = layout.showHeaderBg !== false;
+  const showFooterBg = layout.showFooterBg !== false;
+  const rawHeaderBg = layout.headerBgColor || '#f1f5f9';
+  const rawFooterBg = layout.footerBgColor || '#f1f5f9';
+  const effectiveHeaderBg =
+    isDark && rawHeaderBg.toLowerCase() === '#f1f5f9' ? '#171c28' : rawHeaderBg;
+  const effectiveFooterBg =
+    isDark && rawFooterBg.toLowerCase() === '#f1f5f9' ? '#171c28' : rawFooterBg;
+  const headerIsDark = showHeaderBg ? isDarkHexColor(effectiveHeaderBg) : isDark;
+  const footerIsDark = showFooterBg ? isDarkHexColor(effectiveFooterBg) : isDark;
+
   let footerSectionHtml = '';
   if (layout.showFooterSection !== false && (languages.length > 0 || interests.length > 0)) {
     const gridClass =
@@ -606,10 +896,9 @@ export function renderCvBodyHtml(profile) {
         : 'cv-footer-grid-single';
 
     footerSectionHtml = `
-      <section class="cv-section cv-card-block">
+      <section class="cv-section cv-footer-section cv-card-block ${showFooterBg ? 'has-bg' : ''} ${footerIsDark ? 'theme-dark' : 'theme-light'}">
         <div class="cv-section-header">
-          <h2 class="cv-section-title">${escapeHtml(labels.footerSectionTitle || 'Languages & Beyond Code')}</h2>
-          <p class="cv-section-cmd"><span>~</span> ${escapeHtml(labels.footerSectionCommand || 'cat environment.conf')}</p>
+          <h2 class="cv-section-title">${escapeHtml(labels.footerSectionTitle !== undefined && labels.footerSectionTitle !== '' ? labels.footerSectionTitle : 'Languages & Beyond Code')}</h2>
         </div>
         <div class="${gridClass}">
           ${
@@ -655,18 +944,49 @@ export function renderCvBodyHtml(profile) {
     `;
   }
 
+  const legVis = layout.legendVisibility || {};
+  const legendList = [];
+  if (legVis.main !== false) {
+    legendList.push(`<span class="cv-legend-item"><i style="background:${colors.main}"></i>${escapeHtml(labels.legendMain || 'Main Branch')}</span>`);
+  }
+  if (legVis.job !== false) {
+    legendList.push(`<span class="cv-legend-item"><i style="background:${colors.job}"></i>${escapeHtml(labels.legendJob || 'Work Experience')}</span>`);
+  }
+  if (legVis.edu !== false) {
+    legendList.push(`<span class="cv-legend-item"><i style="background:${colors.edu}"></i>${escapeHtml(labels.legendEdu || 'Education')}</span>`);
+  }
+  if (legVis.cert !== false) {
+    legendList.push(`<span class="cv-legend-item"><i style="background:${colors.cert}"></i>${escapeHtml(labels.legendCert || 'Certifications')}</span>`);
+  }
+  if (legVis.other !== false) {
+    legendList.push(`<span class="cv-legend-item"><i style="background:${colors.other}"></i>${escapeHtml(labels.legendOther || 'Other')}</span>`);
+  }
+
+  const showLegendBar = layout.showLegend !== false && (legendList.length > 0 || labels.gitCommand);
+  const legendBarHtml = showLegendBar
+    ? `<div class="cv-legend-bar">
+        <p class="cv-git-cmd"><span>~</span> ${escapeHtml(labels.gitCommand || 'git log --branches --full-history --stat')}</p>
+        ${legendList.length > 0 ? `<div class="cv-legend-items">${legendList.join('')}</div>` : ''}
+      </div>`
+    : '';
+
   return `
-    <div class="cv-root" style="--cv-scale: ${Number(layout.fontScale) || 1};">
+    <div class="cv-root ${isDark ? 'cv-dark' : 'cv-light'}" style="--cv-scale: ${Number(layout.fontScale) || 1};">
       <header class="cv-header">
-        <div class="cv-header-top">
+        <div class="cv-header-banner ${showHeaderBg ? 'has-bg' : ''} ${headerIsDark ? 'theme-dark' : 'theme-light'}">
           <div class="cv-header-info">
-            <div class="cv-head-badges">
-              <span class="cv-head-ref">HEAD -&gt; main</span>
-              <span class="cv-head-ver">curriculum-vitae.v${new Date().getFullYear()}</span>
-            </div>
             <h1 class="cv-name">${escapeHtml(header.fullName || 'Alex Developer')}</h1>
             ${header.headline ? `<p class="cv-headline">${escapeHtml(header.headline)}</p>` : ''}
-            <div class="cv-contacts">${contactItems.join('')}</div>
+            ${
+              contactItems.length > 0
+                ? `<div class="cv-contacts${layout.showContactDivider !== false && header.headline ? ' cv-contacts-divider' : ''}">${contactItems.join('')}</div>`
+                : ''
+            }
+            ${
+              header.showSummary !== false && header.summary
+                ? `<div class="cv-summary-wrap"><p class="cv-summary">${escapeHtml(header.summary)}</p></div>`
+                : ''
+            }
           </div>
           ${
             header.showAvatar !== false && header.avatar
@@ -674,20 +994,7 @@ export function renderCvBodyHtml(profile) {
               : ''
           }
         </div>
-        ${
-          header.showSummary !== false && header.summary
-            ? `<div class="cv-summary-wrap"><p class="cv-summary">${escapeHtml(header.summary)}</p></div>`
-            : ''
-        }
-        <div class="cv-legend-bar">
-          <p class="cv-git-cmd"><span>~</span> ${escapeHtml(labels.gitCommand || 'git log --branches --full-history --stat')}</p>
-          <div class="cv-legend-items">
-            <span class="cv-legend-item"><i style="background:${colors.job}"></i>${escapeHtml(labels.legendJob || 'Work Experience')}</span>
-            <span class="cv-legend-item"><i style="background:${colors.edu}"></i>${escapeHtml(labels.legendEdu || 'Education')}</span>
-            <span class="cv-legend-item"><i style="background:${colors.cert}"></i>${escapeHtml(labels.legendCert || 'Certifications')}</span>
-            <span class="cv-legend-item"><i style="background:${colors.other}"></i>${escapeHtml(labels.legendOther || 'Other')}</span>
-          </div>
-        </div>
+        ${legendBarHtml}
       </header>
 
       <section class="cv-timeline">
@@ -703,20 +1010,85 @@ export function renderCvBodyHtml(profile) {
 
 export function getCvStyles(profile) {
   const layout = profile?.layout || {};
-  const marginMm = Number(layout.pageMarginMm) ?? 10;
+  const marginMm = Number(layout.pageMarginMm ?? 10);
   const scale = Number(layout.fontScale) || 1;
+  const avatarSize = Number(layout.avatarSize) || 116;
+
+  const isDark = Boolean(layout.darkMode);
+  const showHeaderBg = layout.showHeaderBg !== false;
+  const showFooterBg = layout.showFooterBg !== false;
+  const rawHeaderBg = layout.headerBgColor || '#f1f5f9';
+  const rawFooterBg = layout.footerBgColor || '#f1f5f9';
+  const effectiveHeaderBg =
+    isDark && rawHeaderBg.toLowerCase() === '#f1f5f9' ? '#171c28' : rawHeaderBg;
+  const effectiveFooterBg =
+    isDark && rawFooterBg.toLowerCase() === '#f1f5f9' ? '#171c28' : rawFooterBg;
+  const headerIsDark = showHeaderBg ? isDarkHexColor(effectiveHeaderBg) : isDark;
+  const footerIsDark = showFooterBg ? isDarkHexColor(effectiveFooterBg) : isDark;
+
+  const effectiveHeaderText =
+    layout.headerTextColor || (headerIsDark ? '#f8fafc' : '#0f172a');
+  const effectiveFooterText =
+    layout.footerTextColor || (footerIsDark ? '#f8fafc' : '#0f172a');
+
+  const typo = layout.typo || {};
+  const tSize = (k, def) => Number(typo[k]?.size) || def;
+  const tColor = (k, def) => typo[k]?.color || def;
+  const mix = (c, pct) => `color-mix(in srgb, ${c} ${pct}%, transparent)`;
+  const headerPadBottom = Number(layout.headerPadBottom ?? 30);
+
+  const hdrBase = showHeaderBg ? effectiveHeaderText : isDark ? '#f8fafc' : '#0a0a0a';
+  const ftrBase = showFooterBg ? effectiveFooterText : isDark ? '#f8fafc' : '#0a0a0a';
+
+  const nameColor = tColor('name', hdrBase);
+  const headlineColor = tColor('headline', showHeaderBg ? mix(hdrBase, 82) : isDark ? '#94a3b8' : '#525252');
+  const contactsColor = tColor('contacts', showHeaderBg ? mix(hdrBase, 85) : isDark ? '#cbd5e1' : '#404040');
+  const contactKeyColor = tColor('contactKey', showHeaderBg ? mix(hdrBase, 58) : isDark ? '#475569' : '#a3a3a3');
+  const contactStrongColor = tColor('contacts', hdrBase);
+  const summaryColor = tColor('summary', showHeaderBg ? mix(hdrBase, 88) : isDark ? '#cbd5e1' : '#404040');
+  const summaryBorder = typo.summaryBorder?.color || (showHeaderBg ? mix(hdrBase, 16) : isDark ? '#1a1f2c' : '#f5f5f5');
+  const contactBorder = typo.contactBorder?.color || summaryBorder;
+
+  const footerTitleColor = tColor('footerTitle', ftrBase);
+  const footerLabelColor = tColor('footerLabel', showFooterBg ? mix(ftrBase, 68) : isDark ? '#64748b' : '#737373');
+  const footerTextStrong = tColor('footerText', ftrBase);
+  const footerTextSoft = tColor('footerText', showFooterBg ? mix(ftrBase, 86) : isDark ? '#cbd5e1' : '#404040');
+  const footerFontSize = tSize('footerText', 10.5);
+
+  const pageBg = isDark ? '#0f1117' : '#FFFFFF';
+  const textPrimary = isDark ? '#f8fafc' : '#0a0a0a';
+  const textBody = isDark ? '#cbd5e1' : '#404040';
+  const textSecondary = isDark ? '#94a3b8' : '#525252';
+  const textMuted = isDark ? '#64748b' : '#737373';
+  const textDim = isDark ? '#475569' : '#a3a3a3';
+  const borderMain = isDark ? '#232938' : '#e5e5e5';
+  const borderSubtle = isDark ? '#1a1f2c' : '#f5f5f5';
+  const cardBg = isDark ? '#161b26' : '#fafafa';
+  const tagBg = isDark ? '#181e2c' : '#f5f5f5';
+  const tagBorder = isDark ? '#283147' : '#e5e5e5';
+  const tagText = isDark ? '#cbd5e1' : '#404040';
+
+  const selectedFontKey = layout.fontFamily || 'inter';
+  const fontConfig = FONT_FAMILIES[selectedFontKey] || FONT_FAMILIES.inter;
+  const isUnifiedFont = layout.fontScope !== 'content';
+
+  const rootFontFamily = fontConfig.body;
+  const headingFontFamily = fontConfig.heading || fontConfig.body;
+  const codeFontFamily = isUnifiedFont ? fontConfig.body : '"JetBrains Mono", Menlo, Monaco, Consolas, monospace';
 
   return `
     @page {
       size: A4 portrait;
-      margin: ${marginMm}mm 12mm ${marginMm}mm 12mm;
+      margin: 0;
     }
 
     .cv-root {
-      font-family: "Inter", system-ui, -apple-system, sans-serif;
-      color: #111111;
-      background: #FFFFFF;
+      box-sizing: border-box;
+      font-family: ${rootFontFamily};
+      color: ${textPrimary};
+      background: ${pageBg};
       line-height: 1.5;
+      padding: ${marginMm}mm 12mm;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
       font-size: calc(11px * ${scale});
@@ -733,16 +1105,26 @@ export function getCvStyles(profile) {
     }
 
     .cv-header {
-      border-bottom: 1px solid #e5e5e5;
-      padding-bottom: 14px;
+      border-bottom: 1px solid ${borderMain};
+      padding-bottom: 12px;
       margin-bottom: 14px;
     }
 
-    .cv-header-top {
+    .cv-header-banner {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 22px;
+    }
+
+    .cv-header-banner.has-bg {
+      background: ${effectiveHeaderBg};
+      margin-top: -${marginMm}mm;
+      margin-left: -12mm;
+      margin-right: -12mm;
+      padding: ${marginMm}mm 12mm ${headerPadBottom}px 12mm;
+      border-radius: 0;
+      border: none;
     }
 
     .cv-header-info {
@@ -750,67 +1132,71 @@ export function getCvStyles(profile) {
       min-width: 0;
     }
 
-    .cv-head-badges {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .cv-head-ref {
-      font-family: "JetBrains Mono", monospace;
-      font-size: calc(9px * ${scale});
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 2px 6px;
-      border-radius: 2px;
-      background: #f5f5f5;
-      color: #525252;
-      border: 1px solid #e5e5e5;
-    }
-
-    .cv-head-ver {
-      font-family: "JetBrains Mono", monospace;
-      font-size: calc(9px * ${scale});
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #a3a3a3;
-    }
-
     .cv-name {
-      font-family: "Fraunces", Georgia, serif;
-      font-size: calc(28px * ${scale});
+      font-family: ${headingFontFamily};
+      font-size: calc(${tSize('name', 34)}px * ${scale});
       font-weight: 600;
       letter-spacing: -0.025em;
-      color: #0a0a0a;
+      color: ${nameColor};
       line-height: 1.05;
-      margin: 0 0 4px 0;
+      margin: 0 0 5px 0;
     }
 
     .cv-headline {
-      font-family: "JetBrains Mono", monospace;
-      font-size: calc(11px * ${scale});
-      color: #525252;
-      margin: 0 0 10px 0;
+      font-family: ${codeFontFamily};
+      font-size: calc(${tSize('headline', 13.5)}px * ${scale});
+      color: ${headlineColor};
+      margin: 0;
     }
 
     .cv-contacts {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      column-gap: 14px;
-      row-gap: 4px;
-      font-family: "JetBrains Mono", monospace;
-      font-size: calc(10px * ${scale});
-      color: #404040;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 16px;
+      row-gap: 5px;
+      margin-top: 10px;
+      font-family: ${codeFontFamily};
+      font-size: calc(${tSize('contacts', 10)}px * ${scale});
+      color: ${contactsColor};
+    }
+
+    .cv-contacts.cv-contacts-divider {
+      margin-top: 10px;
+      padding-top: 9px;
+      border-top: 1px solid ${contactBorder};
     }
 
     .cv-contact-item {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      min-width: 0;
       text-decoration: none;
       color: inherit;
+    }
+
+    .cv-contact-val {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cv-contact-fullwidth {
+      grid-column: 1 / -1;
+      width: 100%;
+      margin-top: 2px;
+    }
+
+    .cv-contact-icon {
+      width: 13px;
+      height: 13px;
+      stroke: ${contactKeyColor};
+      fill: none;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: -1.5px;
+      opacity: 0.9;
+      margin-right: 2px;
     }
 
     .cv-link:hover {
@@ -818,20 +1204,20 @@ export function getCvStyles(profile) {
     }
 
     .cv-contact-key {
-      color: #a3a3a3;
+      color: ${contactKeyColor};
     }
 
     .cv-contact-strong {
-      color: #171717;
+      color: ${contactStrongColor};
       font-weight: 500;
     }
 
     .cv-avatar {
-      width: 78px;
-      height: 78px;
+      width: ${avatarSize}px;
+      height: ${avatarSize}px;
       border-radius: 9999px;
       overflow: hidden;
-      border: 1px solid #e5e5e5;
+      border: 2px solid color-mix(in srgb, ${showHeaderBg ? effectiveHeaderText : textPrimary} 18%, transparent);
       flex-shrink: 0;
     }
 
@@ -843,22 +1229,22 @@ export function getCvStyles(profile) {
     }
 
     .cv-summary-wrap {
-      margin-top: 11px;
+      margin-top: 10px;
       padding-top: 9px;
-      border-top: 1px solid #f5f5f5;
+      border-top: 1px solid ${summaryBorder};
     }
 
     .cv-summary {
       margin: 0;
-      font-size: calc(11px * ${scale});
+      font-size: calc(${tSize('summary', 11)}px * ${scale});
       line-height: 1.55;
-      color: #404040;
+      color: ${summaryColor};
     }
 
     .cv-legend-bar {
-      margin-top: 11px;
-      padding-top: 9px;
-      border-top: 1px solid #e5e5e5;
+      margin-top: 10px;
+      padding-top: ${showHeaderBg ? '0' : '9px'};
+      border-top: ${showHeaderBg ? 'none' : `1px solid ${borderMain}`};
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -868,15 +1254,15 @@ export function getCvStyles(profile) {
 
     .cv-git-cmd {
       margin: 0;
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #737373;
+      color: ${textMuted};
     }
 
     .cv-git-cmd span {
-      color: #171717;
+      color: ${textPrimary};
       font-weight: 600;
     }
 
@@ -885,9 +1271,9 @@ export function getCvStyles(profile) {
       flex-wrap: wrap;
       align-items: center;
       gap: 12px;
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
-      color: #525252;
+      color: ${textSecondary};
     }
 
     .cv-legend-item {
@@ -927,15 +1313,23 @@ export function getCvStyles(profile) {
       width: 100%;
     }
 
+    .cv-page-break-top,
+    .cv-page-break-bottom {
+      display: none;
+      position: relative;
+      width: 100%;
+      pointer-events: none;
+    }
+
     .cv-node-date {
       position: absolute;
       left: 0;
       text-align: right;
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
       font-weight: 500;
       line-height: 1;
-      color: #737373;
+      color: ${textMuted};
       user-select: none;
     }
 
@@ -953,13 +1347,17 @@ export function getCvStyles(profile) {
     .cv-card-col {
       position: relative;
       z-index: 10;
-      width: 100%;
+      flex: 1;
       min-width: 0;
       padding-right: 4px;
     }
 
     .cv-card-detail {
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid ${borderSubtle};
+    }
+
+    .cv-card-split-part1 {
+      border-bottom: none !important;
     }
 
     .cv-start-line {
@@ -972,24 +1370,24 @@ export function getCvStyles(profile) {
     }
 
     .cv-start-date {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
-      color: #a3a3a3;
+      color: ${textDim};
     }
 
     .cv-start-text {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9.5px * ${scale});
-      color: #737373;
+      color: ${textMuted};
     }
 
     .cv-start-title {
       font-weight: 500;
-      color: #404040;
+      color: ${textBody};
     }
 
     .cv-start-org {
-      color: #a3a3a3;
+      color: ${textDim};
     }
 
     .cv-card-top {
@@ -1014,7 +1412,7 @@ export function getCvStyles(profile) {
     }
 
     .cv-branch-badge {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(8.5px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -1026,11 +1424,11 @@ export function getCvStyles(profile) {
     }
 
     .cv-status-ongoing {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(8.5px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #059669;
+      color: #10b981;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -1046,38 +1444,38 @@ export function getCvStyles(profile) {
     }
 
     .cv-status-label {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(8.5px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #737373;
+      color: ${textMuted};
     }
 
     .cv-card-daterange {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9.5px * ${scale});
-      color: #737373;
+      color: ${textMuted};
     }
 
     .cv-card-title {
-      font-family: "Fraunces", Georgia, serif;
+      font-family: ${headingFontFamily};
       font-size: calc(15px * ${scale});
       font-weight: 500;
-      color: #0a0a0a;
+      color: ${textPrimary};
       line-height: 1.25;
       margin: 0 0 2px 0;
     }
 
     .cv-card-org {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(10px * ${scale});
       font-weight: 400;
-      color: #525252;
+      color: ${textSecondary};
       margin: 0 0 6px 0;
     }
 
     .cv-card-loc {
-      color: #a3a3a3;
+      color: ${textDim};
     }
 
     .cv-card-logo {
@@ -1086,7 +1484,7 @@ export function getCvStyles(profile) {
       border-radius: 6px;
       background: #ffffff;
       padding: 4px;
-      border: 1px solid #e5e5e5;
+      border: 1px solid ${borderMain};
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -1104,20 +1502,20 @@ export function getCvStyles(profile) {
     .cv-card-desc {
       font-size: calc(10.5px * ${scale});
       line-height: 1.5;
-      color: #404040;
+      color: ${textBody};
       margin-bottom: 6px;
       white-space: pre-line;
     }
 
     .cv-card-grade {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9.5px * ${scale});
-      color: #737373;
+      color: ${textMuted};
       margin: 0 0 6px 0;
     }
 
     .cv-card-grade span {
-      color: #171717;
+      color: ${textPrimary};
       font-weight: 600;
     }
 
@@ -1129,19 +1527,19 @@ export function getCvStyles(profile) {
     }
 
     .cv-skill-tag {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(7.5px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #404040;
+      color: ${tagText};
       padding: 2px 6px;
       border-radius: 2px;
-      background: #f5f5f5;
-      border: 1px solid #e5e5e5;
+      background: ${tagBg};
+      border: 1px solid ${tagBorder};
     }
 
     .cv-skill-tag-white {
-      background: #ffffff;
+      background: ${isDark ? '#1e2536' : '#ffffff'};
     }
 
     .cv-cred-link {
@@ -1149,11 +1547,11 @@ export function getCvStyles(profile) {
       align-items: center;
       gap: 4px;
       margin-top: 6px;
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(8.5px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #404040;
+      color: ${textBody};
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -1162,7 +1560,63 @@ export function getCvStyles(profile) {
     .cv-section {
       padding-top: 14px;
       margin-top: 10px;
-      border-top: 1px solid #e5e5e5;
+      border-top: 1px solid ${borderMain};
+    }
+
+    .cv-footer-section {
+      break-before: avoid !important;
+      page-break-before: avoid !important;
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    .cv-footer-section.has-bg {
+      background: ${effectiveFooterBg};
+      border: none;
+      border-radius: 0;
+      margin-left: -12mm;
+      margin-right: -12mm;
+      margin-bottom: -${marginMm}mm;
+      padding: 16px 12mm ${marginMm}mm 12mm;
+      margin-top: 14px;
+    }
+
+    .cv-footer-section .cv-section-title {
+      font-size: calc(${tSize('footerTitle', 17)}px * ${scale});
+      color: ${footerTitleColor};
+    }
+
+    .cv-footer-section .cv-box-label {
+      font-size: calc(${tSize('footerLabel', 9)}px * ${scale});
+      color: ${footerLabelColor};
+    }
+
+    .cv-footer-section .cv-lang-name,
+    .cv-footer-section .cv-int-title {
+      color: ${footerTextStrong};
+    }
+
+    .cv-footer-section .cv-lang-item,
+    .cv-footer-section .cv-int-item {
+      font-size: calc(${footerFontSize}px * ${scale});
+    }
+
+    .cv-footer-section .cv-lang-level {
+      font-size: calc(${Math.max(6, footerFontSize - 1)}px * ${scale});
+      color: ${footerTextSoft};
+    }
+
+    .cv-footer-section .cv-int-detail {
+      color: ${footerTextSoft};
+    }
+
+    .cv-footer-section.has-bg .cv-footer-box {
+      background: color-mix(in srgb, ${effectiveFooterText} 5%, transparent);
+      border-color: color-mix(in srgb, ${effectiveFooterText} 15%, transparent);
+    }
+
+    .cv-footer-section.has-bg .cv-lang-item {
+      border-bottom-color: color-mix(in srgb, ${effectiveFooterText} 14%, transparent);
     }
 
     .cv-section-header {
@@ -1173,24 +1627,24 @@ export function getCvStyles(profile) {
     }
 
     .cv-section-title {
-      font-family: "Fraunces", Georgia, serif;
+      font-family: ${headingFontFamily};
       font-size: calc(17px * ${scale});
       font-weight: 600;
-      color: #0a0a0a;
+      color: ${textPrimary};
       margin: 0;
     }
 
     .cv-section-cmd {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #737373;
+      color: ${textMuted};
       margin: 0;
     }
 
     .cv-section-cmd span {
-      color: #171717;
+      color: ${textPrimary};
       font-weight: 600;
     }
 
@@ -1201,10 +1655,10 @@ export function getCvStyles(profile) {
     }
 
     .cv-proj-card {
-      border: 1px solid #e5e5e5;
+      border: 1px solid ${borderMain};
       border-radius: 6px;
       padding: 10px 12px;
-      background: #fafafa;
+      background: ${cardBg};
     }
 
     .cv-proj-header {
@@ -1223,40 +1677,40 @@ export function getCvStyles(profile) {
     }
 
     .cv-proj-name {
-      font-family: "Fraunces", Georgia, serif;
+      font-family: ${headingFontFamily};
       font-size: calc(14px * ${scale});
       font-weight: 600;
-      color: #0a0a0a;
+      color: ${textPrimary};
       margin: 0;
     }
 
     .cv-proj-type {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(8px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.08em;
       padding: 1.5px 5px;
       border-radius: 2px;
-      background: #e5e5e5;
-      color: #404040;
+      background: ${tagBg};
+      color: ${tagText};
     }
 
     .cv-proj-year {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
-      color: #a3a3a3;
+      color: ${textDim};
     }
 
     .cv-proj-links {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
     }
 
     .cv-proj-link {
-      color: #525252;
+      color: ${textSecondary};
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -1264,7 +1718,7 @@ export function getCvStyles(profile) {
     .cv-proj-excerpt {
       font-size: calc(10.5px * ${scale});
       line-height: 1.45;
-      color: #404040;
+      color: ${textBody};
       margin: 0 0 6px 0;
     }
 
@@ -1281,18 +1735,18 @@ export function getCvStyles(profile) {
     }
 
     .cv-footer-box {
-      border: 1px solid #e5e5e5;
+      border: 1px solid ${borderMain};
       border-radius: 6px;
       padding: 10px 12px;
-      background: #fafafa;
+      background: ${cardBg};
     }
 
     .cv-box-label {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9px * ${scale});
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #737373;
+      color: ${textMuted};
       margin: 0 0 8px 0;
       font-weight: 500;
     }
@@ -1311,7 +1765,7 @@ export function getCvStyles(profile) {
       font-size: calc(10.5px * ${scale});
       padding-bottom: 5px;
       margin-bottom: 5px;
-      border-bottom: 1px solid #efefef;
+      border-bottom: 1px solid ${borderSubtle};
     }
 
     .cv-lang-item:last-child {
@@ -1322,14 +1776,14 @@ export function getCvStyles(profile) {
 
     .cv-lang-name {
       font-weight: 600;
-      color: #171717;
+      color: ${textPrimary};
       flex-shrink: 0;
     }
 
     .cv-lang-level {
-      font-family: "JetBrains Mono", monospace;
+      font-family: ${codeFontFamily};
       font-size: calc(9.5px * ${scale});
-      color: #525252;
+      color: ${textSecondary};
       text-align: right;
     }
 
@@ -1346,19 +1800,285 @@ export function getCvStyles(profile) {
 
     .cv-int-title {
       font-weight: 600;
-      color: #171717;
+      color: ${textPrimary};
     }
 
     .cv-int-detail {
-      color: #404040;
+      color: ${textBody};
     }
   `;
+}
+
+export function paginateCvDom(rootEl, profile, isPrintMode = false) {
+  if (!rootEl) return;
+  const layout = profile?.layout || {};
+  const marginMm = Number(layout.pageMarginMm ?? 10);
+  const CONTENT_INDENT = Number(layout.contentIndent) || 188;
+
+  // 1. Reset previous pagination adjustments & restore any split continuations
+  rootEl.style.minHeight = '';
+  rootEl.style.paddingBottom = '';
+  rootEl.querySelectorAll('.cv-commit-continuation').forEach((cont) => {
+    const idx = cont.dataset.commitIdx;
+    const parentRow = rootEl.querySelector(`.cv-commit-row[data-commit-idx="${idx}"]:not(.cv-commit-continuation)`);
+    if (parentRow) {
+      const cardDesc = parentRow.querySelector('.cv-card-desc');
+      if (cardDesc && cardDesc.getAttribute('data-full-text')) {
+        cardDesc.textContent = cardDesc.getAttribute('data-full-text');
+      }
+      const skills = cont.querySelector('.cv-skills-wrap');
+      if (skills) parentRow.querySelector('.cv-card-col')?.appendChild(skills);
+      const cred = cont.querySelector('.cv-cred-link');
+      if (cred) parentRow.querySelector('.cv-card-col')?.appendChild(cred);
+    }
+    cont.remove();
+  });
+  rootEl.querySelectorAll('.cv-continuation-bridge').forEach((el) => el.remove());
+  rootEl.querySelectorAll('.cv-card-split-part1').forEach((el) => {
+    el.classList.remove('cv-card-split-part1');
+    el.style.borderBottom = '';
+  });
+
+  rootEl.querySelectorAll('.cv-page-break-top, .cv-page-break-bottom').forEach((el) => {
+    el.style.display = 'none';
+    el.style.height = '0px';
+    el.style.breakBefore = '';
+    el.style.pageBreakBefore = '';
+  });
+  rootEl.querySelectorAll('.cv-section').forEach((el) => {
+    el.style.breakBefore = '';
+    el.style.pageBreakBefore = '';
+    el.style.paddingTop = '';
+    el.style.paddingBottom = '';
+    el.style.marginTop = '';
+  });
+
+  // Measure exact A4 height (297mm) and top/bottom margin in CSS pixels
+  const probe = document.createElement('div');
+  probe.style.cssText =
+    'position:absolute; top:0; left:0; width:1px; height:297mm; visibility:hidden; pointer-events:none;';
+  rootEl.appendChild(probe);
+  const pageHeightPx = probe.getBoundingClientRect().height || 297 * 3.7795275591;
+  probe.style.height = `${marginMm}mm`;
+  const marginPx = probe.getBoundingClientRect().height || marginMm * 3.7795275591;
+  probe.remove();
+
+  let currentPageTopY = rootEl.getBoundingClientRect().top;
+  let pageCount = 1;
+  const rows = Array.from(rootEl.querySelectorAll('.cv-commit-row'));
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (row.classList.contains('cv-commit-continuation')) continue;
+    const rect = row.getBoundingClientRect();
+    const bottomOnPage = rect.bottom - currentPageTopY;
+
+    if (bottomOnPage > pageHeightPx - marginPx && i > 0) {
+      const cardTop = row.querySelector('.cv-card-top');
+      const cardDesc = row.querySelector('.cv-card-desc');
+      const cardTopBottom = cardTop ? cardTop.getBoundingClientRect().bottom - currentPageTopY : bottomOnPage;
+
+      // Check if the card top fits on this page with at least 25px room for initial content
+      const canStartOnCurrentPage = cardTop && cardTopBottom <= pageHeightPx - marginPx - 25 && cardDesc;
+
+      if (canStartOnCurrentPage) {
+        const rawFullText = cardDesc.getAttribute('data-full-text') || cardDesc.textContent;
+        cardDesc.setAttribute('data-full-text', rawFullText);
+        const isNewlineSeparated = rawFullText.includes('\n');
+        const items = isNewlineSeparated
+          ? rawFullText.split('\n')
+          : (rawFullText.match(/[^.!?]+[.!?]+|\S[^.!?]*$/g) || [rawFullText]);
+
+        // Temporarily detach trailing elements (skillsWrap, credLink) so they do not steal room
+        // from text items on the current page or distort height measurements.
+        const skillsWrap = row.querySelector('.cv-skills-wrap');
+        const credLink = row.querySelector('.cv-cred-link');
+        const origSkillsParent = skillsWrap ? skillsWrap.parentNode : null;
+        const origCredParent = credLink ? credLink.parentNode : null;
+        if (skillsWrap) skillsWrap.remove();
+        if (credLink) credLink.remove();
+
+        let fitItems = [];
+        let overflowItems = [];
+
+        for (let itIdx = 0; itIdx < items.length; itIdx++) {
+          cardDesc.textContent = fitItems.concat(items[itIdx]).join(isNewlineSeparated ? '\n' : ' ');
+          const testBottom = row.getBoundingClientRect().bottom - currentPageTopY;
+          if (testBottom <= pageHeightPx - marginPx - 4) {
+            fitItems.push(items[itIdx]);
+          } else {
+            overflowItems = items.slice(itIdx);
+            break;
+          }
+        }
+
+        const hasTrailingToMove = Boolean(skillsWrap || credLink);
+        const shouldSplit = fitItems.length > 0 && (overflowItems.length > 0 || hasTrailingToMove);
+
+        if (shouldSplit) {
+          cardDesc.textContent = fitItems.join(isNewlineSeparated ? '\n' : ' ');
+          const parentCardCol = row.querySelector('.cv-card-col');
+          if (parentCardCol) {
+            parentCardCol.classList.add('cv-card-split-part1');
+            parentCardCol.style.setProperty('border-bottom', 'none', 'important');
+          }
+
+          // Continuation top bridge on next page
+          // (needs straightSvg from bottomBridge)
+          const bottomBridge = rootEl.querySelector(`.cv-page-break-bottom[data-commit-idx="${i}"]`);
+          const straightSvg = bottomBridge ? bottomBridge.querySelector('.cv-graph-col')?.innerHTML || '' : '';
+
+          const contTopBridge = document.createElement('div');
+          contTopBridge.className = 'cv-page-break-top cv-continuation-bridge';
+          contTopBridge.style.display = 'block';
+          contTopBridge.style.height = `${marginPx}px`;
+          contTopBridge.innerHTML = `<div class="cv-graph-col" style="top:0; bottom:-1px;">${straightSvg}</div>`;
+          if (isPrintMode) {
+            contTopBridge.style.breakBefore = 'page';
+            contTopBridge.style.pageBreakBefore = 'always';
+          }
+
+          // Continuation row on next page
+          const contRow = document.createElement('div');
+          contRow.className = 'cv-commit-row cv-commit-continuation';
+          contRow.dataset.commitIdx = String(i);
+          contRow.style.minHeight = '32px';
+
+          const contGraphCol = document.createElement('div');
+          contGraphCol.className = 'cv-graph-col';
+          contGraphCol.innerHTML = straightSvg;
+          contRow.appendChild(contGraphCol);
+
+          const contCardCol = document.createElement('div');
+          contCardCol.className = 'cv-card-col cv-card-detail';
+          contCardCol.style.marginLeft = `${CONTENT_INDENT}px`;
+          contCardCol.style.paddingTop = '4px';
+          contCardCol.style.paddingBottom = '8px';
+
+          if (overflowItems.length > 0) {
+            const contDescDiv = document.createElement('div');
+            contDescDiv.className = 'cv-card-desc';
+            contDescDiv.textContent = overflowItems.join(isNewlineSeparated ? '\n' : ' ');
+            contCardCol.appendChild(contDescDiv);
+          }
+
+          if (skillsWrap) contCardCol.appendChild(skillsWrap);
+          if (credLink) contCardCol.appendChild(credLink);
+
+          contRow.appendChild(contCardCol);
+
+          // Measure remaining space AFTER row has its final split content and trailing elements moved out
+          const curRowBottomOnPage = row.getBoundingClientRect().bottom - currentPageTopY;
+          const remainingToPageEdge = Math.max(0, pageHeightPx - curRowBottomOnPage);
+
+          if (bottomBridge) {
+            bottomBridge.style.display = 'block';
+            const bridgeH = isPrintMode ? Math.max(0, remainingToPageEdge - 0.5) : remainingToPageEdge;
+            bottomBridge.style.height = `${bridgeH}px`;
+          }
+
+          if (bottomBridge && bottomBridge.nextSibling) {
+            row.parentNode.insertBefore(contTopBridge, bottomBridge.nextSibling);
+            row.parentNode.insertBefore(contRow, contTopBridge.nextSibling);
+          } else {
+            row.after(contTopBridge);
+            contTopBridge.after(contRow);
+          }
+
+          currentPageTopY += pageHeightPx;
+          pageCount++;
+          continue;
+        } else {
+          // Could not split cleanly or nothing fit; restore description and trailing elements
+          cardDesc.textContent = rawFullText;
+          if (skillsWrap && origSkillsParent) origSkillsParent.appendChild(skillsWrap);
+          if (credLink && origCredParent) origCredParent.appendChild(credLink);
+        }
+      }
+
+      // If cannot break inside or even first item cannot fit on current page:
+      // Push the entire row to the next page
+      const prevRow = rows[i - 1];
+      const prevBottomOnPage = prevRow.getBoundingClientRect().bottom - currentPageTopY;
+      const remainingToPageEdge = Math.max(0, pageHeightPx - prevBottomOnPage);
+
+      const bottomBridge = rootEl.querySelector(`.cv-page-break-bottom[data-commit-idx="${i - 1}"]`);
+      const topBridge = rootEl.querySelector(`.cv-page-break-top[data-commit-idx="${i}"]`);
+
+      if (bottomBridge) {
+        bottomBridge.style.display = 'block';
+        const bridgeH = isPrintMode ? Math.max(0, remainingToPageEdge - 0.5) : remainingToPageEdge;
+        bottomBridge.style.height = `${bridgeH}px`;
+      }
+
+      if (topBridge) {
+        topBridge.style.display = 'block';
+        topBridge.style.height = `${marginPx}px`;
+        if (isPrintMode) {
+          topBridge.style.breakBefore = 'page';
+          topBridge.style.pageBreakBefore = 'always';
+        }
+        currentPageTopY += pageHeightPx;
+        pageCount++;
+      }
+    }
+  }
+
+  // Ensure post-timeline sections (like projects, but NEVER the footer alone) respect page margins
+  const sections = Array.from(rootEl.querySelectorAll('.cv-section:not(.cv-footer-section)'));
+  for (const sec of sections) {
+    const rect = sec.getBoundingClientRect();
+    const bottomOnPage = rect.bottom - currentPageTopY;
+    if (bottomOnPage > pageHeightPx - marginPx) {
+      const topOnPage = rect.top - currentPageTopY;
+      const remainingToPageEdge = Math.max(0, pageHeightPx - topOnPage);
+      const isBoxedSection = sec.classList.contains('has-bg');
+      if (isPrintMode) {
+        sec.style.breakBefore = 'page';
+        sec.style.pageBreakBefore = 'always';
+        sec.style.marginTop = `${marginPx}px`;
+        if (!isBoxedSection) {
+          sec.style.paddingTop = `${marginPx + 14}px`;
+          sec.style.marginTop = '0px';
+        }
+        currentPageTopY = sec.getBoundingClientRect().top - (isBoxedSection ? marginPx : 0);
+      } else {
+        sec.style.marginTop = `${remainingToPageEdge + marginPx}px`;
+        currentPageTopY = sec.getBoundingClientRect().top - marginPx;
+      }
+      pageCount++;
+    }
+  }
+
+  // NOTE: Footer directly follows the last entry/section on the SAME page (never alone on a new page)
+
+  // 6. Extend the footer background seamlessly to the bottom edge of the final page
+  const footerSec = rootEl.querySelector('.cv-footer-section');
+  if (footerSec && footerSec.classList.contains('has-bg')) {
+    const rootTop = rootEl.getBoundingClientRect().top;
+    const footerBottom = footerSec.getBoundingClientRect().bottom;
+    const totalPages = Math.max(1, Math.ceil((footerBottom - rootTop) / pageHeightPx));
+    const targetBottom = rootTop + totalPages * pageHeightPx;
+    const gap = targetBottom - footerBottom;
+
+    if (gap > 0.5) {
+      const curPadBottom = parseFloat(window.getComputedStyle(footerSec).paddingBottom) || 0;
+      // In print mode, reserve 2px so subpixel rounding cannot spill onto a new page
+      const safeExtra = isPrintMode ? Math.max(0, gap - 2) : gap;
+      footerSec.style.paddingBottom = `${curPadBottom + safeExtra}px`;
+    }
+    if (!isPrintMode) {
+      rootEl.style.minHeight = `${totalPages * pageHeightPx}px`;
+    }
+  }
 }
 
 export function renderFullPrintableHtml(profile, baseUrl = '') {
   const styles = getCvStyles(profile);
   const body = renderCvBodyHtml(profile);
   const fullName = profile?.header?.fullName || 'Alex Developer';
+  const isDark = Boolean(profile?.layout?.darkMode);
+  const pageBg = isDark ? '#0f1117' : '#FFFFFF';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -1371,7 +2091,8 @@ export function renderFullPrintableHtml(profile, baseUrl = '') {
       html, body {
         margin: 0;
         padding: 0;
-        background: #FFFFFF;
+        width: 210mm;
+        background: ${pageBg};
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }

@@ -1,7 +1,7 @@
 {
   "id": "default-en",
-  "name": "English — Demo Resume",
-  "updatedAt": "2026-10-23T09:03:49.316Z",
+  "name": "Default — English (Demo CV)",
+  "updatedAt": "2026-10-26T14:38:38.927Z",
   "header": {
     "fullName": "Alex Developer",
     "headline": "Computer Science Student (B.Sc.) · Software & Cloud Engineering",
@@ -61,7 +61,46 @@
       "edu": "#8b5cf6",
       "cert": "#f59e0b",
       "other": "#ec4899"
-    }
+    },
+    "manualSort": true,
+    "headerBgColor": "#001e57",
+    "showHeaderBg": true,
+    "showContactDivider": true,
+    "avatarSize": 140,
+    "headerTextColor": "#ffffff",
+    "showInterestsSection": true,
+    "fontFamily": "trebuchet",
+    "typo": {
+      "name": {
+        "size": 40,
+        "color": "#ffffff"
+      },
+      "headline": {
+        "size": 14,
+        "color": "#ffffff"
+      },
+      "contacts": {
+        "size": 13,
+        "color": "#ffffff"
+      },
+      "summary": {
+        "size": 13,
+        "color": "#ffffff"
+      },
+      "footerLabel": {
+        "size": 12
+      },
+      "footerText": {
+        "size": 12
+      },
+      "contactKey": {
+        "color": "#ebebeb"
+      }
+    },
+    "fontScope": "all",
+    "darkMode": false,
+    "footerBgColor": "#001e57",
+    "showFooterBg": true
   },
   "entries": [
     {

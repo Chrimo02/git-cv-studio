@@ -516,7 +516,7 @@
         background: #FFFFFF;
         box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
         border-radius: 3px;
-        padding: 10mm 12mm;
+        padding: 0;
         transform-origin: top center;
         position: relative;
       }
@@ -607,7 +607,11 @@
             <button id="modePdfBtn" class="preview-mode-btn">📄 True Native PDF View</button>
           </div>
 
-          <div style="display:flex; align-items:center; gap:10px;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <label class="switch-wrap" title="Toggle Dark Mode for the entire CV document" style="background:var(--bg-input); border:1px solid var(--border); padding:4px 9px; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:11px;">
+              <span>🌙 CV Dark Mode</span>
+              <input type="checkbox" class="ui-switch" id="chkToolbarDarkMode" />
+            </label>
             <label style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">
               Zoom:
               <select id="zoomSelect" class="studio-select btn-sm" style="margin-left:4px;">

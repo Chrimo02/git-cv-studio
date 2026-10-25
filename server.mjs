@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { renderFullPrintableHtml } from './public/renderer.js';
+import { renderFullPrintableHtml, paginateCvDom } from './public/renderer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,55 +37,103 @@ const MIME_TYPES = {
 
 let browserPromise = null;
 async function getBrowser() {
-  if (!browserPromise) {
-    browserPromise = puppeteer.launch({ headless: 'new' }).catch((err) => {
+  if (browserPromise) {
+    try {
+      const existing = await browserPromise;
+      if (!existing || !existing.connected) {
+        browserPromise = null;
+      }
+    } catch {
       browserPromise = null;
-      throw err;
-    });
+    }
+  }
+  if (!browserPromise) {
+    browserPromise = puppeteer
+      .launch({
+        headless: 'new',
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--no-first-run',
+          '--no-zygote',
+        ],
+      })
+      .then((browser) => {
+        browser.on('disconnected', () => {
+          browserPromise = null;
+        });
+        return browser;
+      })
+      .catch((err) => {
+        browserPromise = null;
+        throw err;
+      });
   }
   return browserPromise;
 }
 
 async function generateNativePdfBuffer(profile, serverOrigin) {
-  const browser = await getBrowser();
-  const page = await browser.newPage();
+  const { renderFullPrintableHtml, paginateCvDom } = await import(
+    `./public/renderer.js?t=${Date.now()}`
+  );
+  let browser = await getBrowser();
+  let page;
+  try {
+    page = await browser.newPage();
+  } catch {
+    browserPromise = null;
+    browser = await getBrowser();
+    page = await browser.newPage();
+  }
   try {
     await page.setViewport({ width: 1024, height: 1448, deviceScaleFactor: 2 });
     await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
 
     const html = renderFullPrintableHtml(profile, serverOrigin);
-    await page.setContent(html, { waitUntil: 'networkidle0', timeout: 30000 });
+    await page.setContent(html, { waitUntil: 'load', timeout: 15000 });
 
-    await page.evaluate(async () => {
-      await document.fonts.ready;
-      const imgs = Array.from(document.querySelectorAll('img'));
-      await Promise.all(
-        imgs.map((img) => {
-          if (img.complete) return Promise.resolve();
-          return new Promise((res) => {
-            img.addEventListener('load', res, { once: true });
-            img.addEventListener('error', res, { once: true });
-          });
-        })
-      );
-    });
+    const marginMm = Number(profile?.layout?.pageMarginMm ?? 10);
+    const paginateFnStr = paginateCvDom.toString();
 
-    const marginMm = Number(profile?.layout?.pageMarginMm) ?? 10;
+    await page.evaluate(
+      async (fnStr, mMm) => {
+        await document.fonts.ready;
+        const imgs = Array.from(document.querySelectorAll('img'));
+        await Promise.all(
+          imgs.map((img) => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((res) => {
+              img.addEventListener('load', res, { once: true });
+              img.addEventListener('error', res, { once: true });
+            });
+          })
+        );
+
+        const fn = new Function(`return (${fnStr})`)();
+        const rootEl = document.querySelector('.cv-root');
+        fn(rootEl, { layout: { pageMarginMm: mMm } }, true);
+      },
+      paginateFnStr,
+      marginMm
+    );
+
     const pdfUint8 = await page.pdf({
       format: 'A4',
       printBackground: true,
       preferCSSPageSize: true,
       margin: {
-        top: `${marginMm}mm`,
-        bottom: `${marginMm}mm`,
-        left: '12mm',
-        right: '12mm',
+        top: '0mm',
+        bottom: '0mm',
+        left: '0mm',
+        right: '0mm',
       },
     });
 
     return Buffer.from(pdfUint8);
   } finally {
-    await page.close();
+    await page.close().catch(() => {});
   }
 }
 

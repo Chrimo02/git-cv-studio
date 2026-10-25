@@ -1,4 +1,4 @@
-import { renderCvBodyHtml, getCvStyles, DEFAULT_COLORS, escapeHtml } from '/renderer.js';
+import { renderCvBodyHtml, getCvStyles, paginateCvDom, isDarkHexColor, DEFAULT_COLORS, FONT_FAMILIES, escapeHtml } from '/renderer.js';
 
 let profiles = [];
 let currentProfile = null;
@@ -80,10 +80,15 @@ async function saveCurrentProfileToServer() {
 
 function updateLivePreview() {
   if (!currentProfile) return;
-  const marginMm = Number(currentProfile.layout?.pageMarginMm) ?? 10;
-  liveSheetWrap.style.padding = `${marginMm}mm 12mm`;
+  const isDark = Boolean(currentProfile.layout?.darkMode);
+  liveSheetWrap.style.padding = '0';
+  liveSheetWrap.style.background = isDark ? '#0f1117' : '#FFFFFF';
+  const toolbarDarkChk = document.getElementById('chkToolbarDarkMode');
+  if (toolbarDarkChk) toolbarDarkChk.checked = isDark;
   cvDynamicStyles.textContent = getCvStyles(currentProfile);
   cvLiveMount.innerHTML = renderCvBodyHtml(currentProfile);
+  const rootEl = cvLiveMount.querySelector('.cv-root');
+  paginateCvDom(rootEl, currentProfile, false);
   drawA4PageGuides();
 }
 
@@ -92,6 +97,7 @@ function drawA4PageGuides() {
   const pageHeightPx = 297 * 3.7795275591;
   const totalHeight = liveSheetWrap.scrollHeight;
   const totalPages = Math.max(1, Math.ceil(totalHeight / pageHeightPx));
+  liveSheetWrap.style.minHeight = `${Math.round(totalPages * pageHeightPx)}px`;
 
   for (let p = 1; p < totalPages; p++) {
     const guide = document.createElement('div');
@@ -280,6 +286,16 @@ function renderTimelineTab() {
         </div>
         <button id="btnAddEntry" class="btn btn-sm" style="border-color:#3b82f6; color:#93c5fd;">+ New Station</button>
       </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:8px; border-top:1px solid var(--border);">
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+          <input type="checkbox" class="ui-switch" id="chkManualTimelineOrder" ${layout.manualSort !== false ? 'checked' : ''} />
+          <span style="font-size:11.5px; font-weight:500;">
+            <strong>Manuelle Reihenfolge (Drag &amp; Drop / Pfeile)</strong>
+            <span style="color:var(--text-muted); font-size:10.5px;">— Stationen exakt wie in dieser Liste anordnen</span>
+          </span>
+        </label>
+      </div>
     </div>
 
     <div id="entriesList">
@@ -295,6 +311,7 @@ function renderTimelineTab() {
           return `
             <div class="entry-item ${entry.enabled === false ? 'disabled-entry' : ''} ${isOpen ? 'open' : ''}" data-idx="${idx}">
               <div class="entry-header" data-toggle-idx="${idx}">
+                <span class="entry-drag-handle" title="Drag to reorder" draggable="true" style="cursor:grab; user-select:none; color:var(--text-dim); font-size:14px; padding:0 3px;">⋮⋮</span>
                 <input type="checkbox" class="ui-switch entry-enable-chk" data-idx="${idx}" ${
                   entry.enabled !== false ? 'checked' : ''
                 } title="Toggle station visibility in CV" />
@@ -304,6 +321,10 @@ function renderTimelineTab() {
                   <div class="entry-summary-meta">
                     [${escapeHtml(entry.badge || entry.id)}] · ${escapeHtml(entry.organization || '')} · ${escapeHtml(dateInfo)}
                   </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:3px;">
+                  <button class="btn btn-sm entry-move-btn" data-dir="up" data-idx="${idx}" title="Move up" ${idx === 0 ? 'disabled style="opacity:0.35;"' : ''}>▲</button>
+                  <button class="btn btn-sm entry-move-btn" data-dir="down" data-idx="${idx}" title="Move down" ${idx === entries.length - 1 ? 'disabled style="opacity:0.35;"' : ''}>▼</button>
                 </div>
                 <button class="btn btn-sm entry-dup-btn" data-idx="${idx}" title="Duplicate entry">⧉</button>
                 <button class="btn btn-sm btn-danger entry-del-btn" data-idx="${idx}" title="Permanently delete entry">🗑</button>
@@ -486,6 +507,12 @@ function renderTimelineTab() {
     scheduleAutoSave();
   });
 
+  document.getElementById('chkManualTimelineOrder')?.addEventListener('change', (e) => {
+    layout.manualSort = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
   document.querySelectorAll('.cat-filter-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       categoryFilter = btn.dataset.cat;
@@ -520,6 +547,82 @@ function renderTimelineTab() {
     renderTimelineTab();
     updateLivePreview();
     scheduleAutoSave();
+  });
+
+  document.querySelectorAll('.entry-move-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = Number(btn.dataset.idx);
+      const dir = btn.dataset.dir;
+      const targetIdx = dir === 'up' ? idx - 1 : idx + 1;
+      if (targetIdx >= 0 && targetIdx < entries.length) {
+        const [moved] = entries.splice(idx, 1);
+        entries.splice(targetIdx, 0, moved);
+        entries.forEach((e, i) => {
+          e.priority = (entries.length - i) * 10;
+        });
+        layout.manualSort = true;
+        renderTimelineTab();
+        updateLivePreview();
+        scheduleAutoSave();
+      }
+    });
+  });
+
+  let draggedItemIdx = null;
+  document.querySelectorAll('.entry-item').forEach((item) => {
+    const handle = item.querySelector('.entry-drag-handle');
+    if (handle) {
+      handle.addEventListener('dragstart', (e) => {
+        draggedItemIdx = Number(item.dataset.idx);
+        e.dataTransfer.effectAllowed = 'move';
+        item.style.opacity = '0.45';
+      });
+      handle.addEventListener('dragend', () => {
+        item.style.opacity = '1';
+        draggedItemIdx = null;
+        document.querySelectorAll('.entry-item').forEach((el) => {
+          el.style.borderTop = '';
+          el.style.borderBottom = '';
+        });
+      });
+    }
+
+    item.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const targetIdx = Number(item.dataset.idx);
+      if (draggedItemIdx === null || draggedItemIdx === targetIdx) return;
+      if (draggedItemIdx < targetIdx) {
+        item.style.borderBottom = '2px solid var(--border-focus)';
+        item.style.borderTop = '';
+      } else {
+        item.style.borderTop = '2px solid var(--border-focus)';
+        item.style.borderBottom = '';
+      }
+    });
+
+    item.addEventListener('dragleave', () => {
+      item.style.borderTop = '';
+      item.style.borderBottom = '';
+    });
+
+    item.addEventListener('drop', (e) => {
+      e.preventDefault();
+      item.style.borderTop = '';
+      item.style.borderBottom = '';
+      const targetIdx = Number(item.dataset.idx);
+      if (draggedItemIdx === null || draggedItemIdx === targetIdx) return;
+      const [moved] = entries.splice(draggedItemIdx, 1);
+      entries.splice(targetIdx, 0, moved);
+      entries.forEach((e, i) => {
+        e.priority = (entries.length - i) * 10;
+      });
+      layout.manualSort = true;
+      renderTimelineTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
   });
 
   document.querySelectorAll('.entry-header').forEach((hdr) => {
@@ -646,6 +749,11 @@ function renderTimelineTab() {
 function renderHeaderTab() {
   const h = currentProfile.header || (currentProfile.header = {});
   const l = currentProfile.labels || (currentProfile.labels = {});
+  const layout = currentProfile.layout || (currentProfile.layout = {});
+  const headerBg = layout.headerBgColor || '#f1f5f9';
+  const defaultHdrText = isDarkHexColor(headerBg) ? '#f8fafc' : '#0f172a';
+  const headerText = layout.headerTextColor || defaultHdrText;
+  const avatarSize = Number(layout.avatarSize) || 116;
 
   editorContent.innerHTML = `
     <div class="section-block">
@@ -663,7 +771,13 @@ function renderHeaderTab() {
           <input type="text" class="studio-input hdr-field" data-key="location" value="${escapeHtml(h.location)}" />
         </div>
         <div class="field-wrap field-full">
-          <label class="field-label">Headline / Target Role</label>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <label class="field-label" style="margin:0;">Headline / Target Role (Subtitle)</label>
+            <label class="switch-wrap">
+              <span>Divider below Subtitle</span>
+              <input type="checkbox" class="ui-switch" id="chkShowContactDivider" ${layout.showContactDivider !== false ? 'checked' : ''} />
+            </label>
+          </div>
           <input type="text" class="studio-input hdr-field" data-key="headline" value="${escapeHtml(h.headline)}" />
         </div>
         <div class="field-wrap">
@@ -702,6 +816,35 @@ function renderHeaderTab() {
           <input type="text" class="studio-input hdr-field" data-key="linkedin" value="${escapeHtml(h.linkedin)}" />
         </div>
         <div class="field-wrap field-full">
+          <label class="field-label">Contact Labels (leave empty to hide the label)</label>
+          <div style="display:grid; grid-template-columns:repeat(6,1fr); gap:6px;">
+            ${['loc', 'mail', 'tel', 'web', 'git', 'in']
+              .map(
+                (k) =>
+                  `<input type="text" class="studio-input contact-key-field" data-key="${k}" value="${escapeHtml((h.contactKeys && h.contactKeys[k] !== undefined) ? h.contactKeys[k] : k)}" title="Label for ${k}" style="padding:5px 7px; font-family:'JetBrains Mono',monospace; font-size:11px;" />`
+              )
+              .join('')}
+          </div>
+        </div>
+        <div class="field-wrap field-full">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label class="field-label" style="margin:0;">Custom Contact Items (free label &amp; text, optional link)</label>
+            <button type="button" id="btnAddCustomContact" class="btn btn-sm">+ Add Item</button>
+          </div>
+          ${(h.customContacts || [])
+            .map(
+              (c, idx) => `
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:6px; ${c.enabled === false ? 'opacity:0.48;' : ''}">
+              <input type="checkbox" class="ui-switch cc-enable" data-idx="${idx}" ${c.enabled !== false ? 'checked' : ''} title="Show/Hide" />
+              <input type="text" class="studio-input cc-field" data-idx="${idx}" data-key="label" placeholder="Label" value="${escapeHtml(c.label)}" style="width:20%;" />
+              <input type="text" class="studio-input cc-field" data-idx="${idx}" data-key="value" placeholder="Text" value="${escapeHtml(c.value)}" style="flex:1;" />
+              <input type="text" class="studio-input cc-field" data-idx="${idx}" data-key="url" placeholder="Link (optional)" value="${escapeHtml(c.url)}" style="width:28%;" />
+              <button type="button" class="btn btn-sm btn-danger cc-del" data-idx="${idx}" title="Delete">🗑</button>
+            </div>`
+            )
+            .join('')}
+        </div>
+        <div class="field-wrap field-full">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
             <label class="field-label" style="margin:0;">Portrait Photo</label>
             <label class="switch-wrap">
@@ -709,12 +852,64 @@ function renderHeaderTab() {
               <input type="checkbox" class="ui-switch" id="chkShowAvatar" ${h.showAvatar !== false ? 'checked' : ''} />
             </label>
           </div>
-          <div style="display:flex; gap:6px;">
+          <div style="display:flex; gap:6px; margin-bottom:8px;">
             <input type="text" class="studio-input hdr-field" style="flex:1;" data-key="avatar" value="${escapeHtml(h.avatar)}" />
             <label class="btn btn-sm" style="margin:0;">
               Upload Photo
               <input type="file" id="inputAvatarUpload" accept="image/*" style="display:none;" />
             </label>
+          </div>
+          <div class="slider-row" style="margin-bottom:4px;">
+            <div class="slider-top">
+              <span>Portrait Photo Size (Right Column)</span>
+              <span class="slider-val" id="val_hdr_avatarSize">${avatarSize}px</span>
+            </div>
+            <input type="range" id="rngHdrAvatarSize" min="76" max="156" step="2" value="${avatarSize}" />
+          </div>
+        </div>
+        <div class="field-wrap field-full">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label class="field-label" style="margin:0;">Header Full-Width Background &amp; Text Color</label>
+            <label class="switch-wrap">
+              <span>Colored Header</span>
+              <input type="checkbox" class="ui-switch" id="chkHdrBg" ${layout.showHeaderBg !== false ? 'checked' : ''} />
+            </label>
+          </div>
+          <div class="field-grid" style="margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:8px; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+              <input type="color" id="clrHdrBg" value="${escapeHtml(headerBg)}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+              <div style="flex:1;">
+                <div style="font-size:11px; font-weight:500;">Background Color</div>
+                <div id="hexHdrBg" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);">${escapeHtml(headerBg)}</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+              <input type="color" id="clrHdrText" value="${escapeHtml(headerText)}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+              <div style="flex:1;">
+                <div style="font-size:11px; font-weight:500;">Text Color</div>
+                <div id="hexHdrText" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);">${escapeHtml(headerText)}</div>
+              </div>
+              <button type="button" class="btn btn-sm hdr-txt-preset" data-hex="#0f172a" title="Dark Text" style="padding:2px 6px; font-size:10px;">Dark</button>
+              <button type="button" class="btn btn-sm hdr-txt-preset" data-hex="#ffffff" title="White Text" style="padding:2px 6px; font-size:10px;">White</button>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            ${[
+              { label: 'Slate', hex: '#f1f5f9', txt: '#0f172a' },
+              { label: 'Ice Blue', hex: '#eff6ff', txt: '#0f172a' },
+              { label: 'Mint', hex: '#ecfdf5', txt: '#0f172a' },
+              { label: 'Sand', hex: '#f7f4ef', txt: '#0f172a' },
+              { label: 'Dark Navy', hex: '#1e293b', txt: '#f8fafc' },
+              { label: 'Charcoal', hex: '#171c28', txt: '#f8fafc' },
+            ]
+              .map(
+                (sw) =>
+                  `<button type="button" class="btn btn-sm hdr-bg-preset" data-hex="${sw.hex}" data-txt="${sw.txt}" style="padding:3px 7px; font-size:10.5px;">
+                    <span style="width:10px; height:10px; border-radius:3px; background:${sw.hex}; border:1px solid rgba(255,255,255,0.2); display:inline-block;"></span>
+                    ${sw.label}
+                  </button>`
+              )
+              .join('')}
           </div>
         </div>
         <div class="field-wrap field-full">
@@ -761,6 +956,10 @@ function renderHeaderTab() {
           <input type="text" class="studio-input lbl-field" data-key="grade" value="${escapeHtml(l.grade)}" />
         </div>
         <div class="field-wrap">
+          <label class="field-label">Legend: Main Branch (Trunk)</label>
+          <input type="text" class="studio-input lbl-field" data-key="legendMain" value="${escapeHtml(l.legendMain || 'Main Branch')}" />
+        </div>
+        <div class="field-wrap">
           <label class="field-label">Legend: Jobs</label>
           <input type="text" class="studio-input lbl-field" data-key="legendJob" value="${escapeHtml(l.legendJob)}" />
         </div>
@@ -782,11 +981,54 @@ function renderHeaderTab() {
         </div>
         <div class="field-wrap">
           <label class="field-label">Languages &amp; Interests Heading</label>
-          <input type="text" class="studio-input lbl-field" data-key="footerSectionTitle" value="${escapeHtml(l.footerSectionTitle)}" />
+          <input type="text" class="studio-input lbl-field" data-key="footerSectionTitle" placeholder="Languages &amp; Beyond Code" value="${escapeHtml(l.footerSectionTitle !== undefined && l.footerSectionTitle !== '' ? l.footerSectionTitle : 'Languages & Beyond Code')}" />
         </div>
       </div>
     </div>
   `;
+
+  document.querySelectorAll('.contact-key-field').forEach((inp) => {
+    inp.addEventListener('input', () => {
+      if (!h.contactKeys) h.contactKeys = {};
+      h.contactKeys[inp.dataset.key] = inp.value;
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.getElementById('btnAddCustomContact')?.addEventListener('click', () => {
+    if (!h.customContacts) h.customContacts = [];
+    h.customContacts.push({ enabled: true, label: '', value: 'Custom text', url: '' });
+    renderHeaderTab();
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.querySelectorAll('.cc-field').forEach((inp) => {
+    inp.addEventListener('input', () => {
+      h.customContacts[Number(inp.dataset.idx)][inp.dataset.key] = inp.value;
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.querySelectorAll('.cc-enable').forEach((chk) => {
+    chk.addEventListener('change', () => {
+      h.customContacts[Number(chk.dataset.idx)].enabled = chk.checked;
+      renderHeaderTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.querySelectorAll('.cc-del').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      h.customContacts.splice(Number(btn.dataset.idx), 1);
+      renderHeaderTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
 
   document.querySelectorAll('.hdr-field').forEach((inp) => {
     inp.addEventListener('input', () => {
@@ -804,6 +1046,12 @@ function renderHeaderTab() {
     });
   });
 
+  document.getElementById('chkShowContactDivider')?.addEventListener('change', (e) => {
+    layout.showContactDivider = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
   document.getElementById('chkShowAvatar')?.addEventListener('change', (e) => {
     h.showAvatar = e.target.checked;
     updateLivePreview();
@@ -814,6 +1062,60 @@ function renderHeaderTab() {
     h.showSummary = e.target.checked;
     updateLivePreview();
     scheduleAutoSave();
+  });
+
+  document.getElementById('rngHdrAvatarSize')?.addEventListener('input', (e) => {
+    const val = Number(e.target.value);
+    layout.avatarSize = val;
+    const lbl = document.getElementById('val_hdr_avatarSize');
+    if (lbl) lbl.textContent = `${val}px`;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkHdrBg')?.addEventListener('change', (e) => {
+    layout.showHeaderBg = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('clrHdrBg')?.addEventListener('input', (e) => {
+    layout.headerBgColor = e.target.value;
+    layout.showHeaderBg = true;
+    const chk = document.getElementById('chkHdrBg');
+    if (chk) chk.checked = true;
+    const hexEl = document.getElementById('hexHdrBg');
+    if (hexEl) hexEl.textContent = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('clrHdrText')?.addEventListener('input', (e) => {
+    layout.headerTextColor = e.target.value;
+    const hexEl = document.getElementById('hexHdrText');
+    if (hexEl) hexEl.textContent = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.querySelectorAll('.hdr-txt-preset').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      layout.headerTextColor = btn.dataset.hex;
+      renderHeaderTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.querySelectorAll('.hdr-bg-preset').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      layout.headerBgColor = btn.dataset.hex;
+      if (btn.dataset.txt) layout.headerTextColor = btn.dataset.txt;
+      layout.showHeaderBg = true;
+      renderHeaderTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
   });
 
   document.getElementById('inputAvatarUpload')?.addEventListener('change', async (e) => {
@@ -918,6 +1220,44 @@ function renderProjectsTab() {
       </div>
 
       <div style="${layout.showFooterSection === false ? 'opacity:0.45;' : ''}">
+        <!-- Footer Background & Text Color Controls -->
+        <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <label class="field-label" style="margin:0;">Footer Full-Width Background &amp; Text Color</label>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button type="button" id="btnSyncFooterWithHeader" class="btn btn-sm" style="padding:3px 7px; font-size:10.5px;">⇄ Copy from Header</button>
+              <label class="switch-wrap">
+                <span>Colored Footer</span>
+                <input type="checkbox" class="ui-switch" id="chkFooterBgProjTab" ${layout.showFooterBg !== false ? 'checked' : ''} />
+              </label>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div style="display:flex; align-items:center; gap:8px; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+              <input type="color" id="clrFooterBgProjTab" value="${escapeHtml(layout.footerBgColor || '#f1f5f9')}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+              <div style="flex:1;">
+                <div style="font-size:11px; font-weight:500;">Background Color</div>
+                <div id="hexFooterBgProjTab" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);">${escapeHtml(layout.footerBgColor || '#f1f5f9')}</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+              <input type="color" id="clrFooterTextProjTab" value="${escapeHtml(layout.footerTextColor || (isDarkHexColor(layout.footerBgColor || '#f1f5f9') ? '#f8fafc' : '#0f172a'))}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+              <div style="flex:1;">
+                <div style="font-size:11px; font-weight:500;">Text Color</div>
+                <div id="hexFooterTextProjTab" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);">${escapeHtml(layout.footerTextColor || (isDarkHexColor(layout.footerBgColor || '#f1f5f9') ? '#f8fafc' : '#0f172a'))}</div>
+              </div>
+              <button type="button" class="btn btn-sm ftr-txt-preset" data-hex="#0f172a" title="Dark Text" style="padding:2px 6px; font-size:10px;">Dark</button>
+              <button type="button" class="btn btn-sm ftr-txt-preset" data-hex="#ffffff" title="White Text" style="padding:2px 6px; font-size:10px;">White</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Section Title -->
+        <div style="margin-bottom:14px; background:var(--bg-input); padding:9px 12px; border-radius:6px; border:1px solid var(--border);">
+          <label class="field-label" style="font-weight:600; font-size:11.5px; margin-bottom:5px; display:block;">Footer Section Heading (Überschrift)</label>
+          <input type="text" id="inpFooterTitleProjTab" class="studio-input" style="width:100%;" placeholder="Languages &amp; Beyond Code" value="${escapeHtml(currentProfile.labels?.footerSectionTitle !== undefined && currentProfile.labels.footerSectionTitle !== '' ? currentProfile.labels.footerSectionTitle : 'Languages & Beyond Code')}" />
+        </div>
+
         <!-- Languages Sub-Section -->
         <div style="margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border);">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -979,6 +1319,56 @@ function renderProjectsTab() {
   document.getElementById('chkShowFooterSec')?.addEventListener('change', (e) => {
     layout.showFooterSection = e.target.checked;
     renderProjectsTab();
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkFooterBgProjTab')?.addEventListener('change', (e) => {
+    layout.showFooterBg = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('clrFooterBgProjTab')?.addEventListener('input', (e) => {
+    layout.footerBgColor = e.target.value;
+    layout.showFooterBg = true;
+    const chk = document.getElementById('chkFooterBgProjTab');
+    if (chk) chk.checked = true;
+    const hexEl = document.getElementById('hexFooterBgProjTab');
+    if (hexEl) hexEl.textContent = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('clrFooterTextProjTab')?.addEventListener('input', (e) => {
+    layout.footerTextColor = e.target.value;
+    const hexEl = document.getElementById('hexFooterTextProjTab');
+    if (hexEl) hexEl.textContent = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.querySelectorAll('.ftr-txt-preset').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      layout.footerTextColor = btn.dataset.hex;
+      renderProjectsTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.getElementById('btnSyncFooterWithHeader')?.addEventListener('click', () => {
+    layout.footerBgColor = layout.headerBgColor || '#f1f5f9';
+    if (layout.headerTextColor) layout.footerTextColor = layout.headerTextColor;
+    layout.showFooterBg = true;
+    renderProjectsTab();
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('inpFooterTitleProjTab')?.addEventListener('input', (e) => {
+    if (!currentProfile.labels) currentProfile.labels = {};
+    currentProfile.labels.footerSectionTitle = e.target.value;
     updateLivePreview();
     scheduleAutoSave();
   });
@@ -1139,9 +1529,13 @@ function renderProjectsTab() {
 function renderLayoutTab() {
   const layout = currentProfile.layout || (currentProfile.layout = {});
   const colors = layout.colors || (layout.colors = { ...DEFAULT_COLORS });
+  const headerBg = layout.headerBgColor || '#f1f5f9';
+  const footerBg = layout.footerBgColor || '#f1f5f9';
 
   const sliders = [
     { key: 'fontScale', label: 'Typography Scale (Font Size)', min: 0.8, max: 1.2, step: 0.02, unit: 'x', def: 1 },
+    { key: 'avatarSize', label: 'Portrait Photo Size (Right Header)', min: 76, max: 156, step: 2, unit: 'px', def: 116 },
+    { key: 'headerPadBottom', label: 'Header Box Bottom Padding (Space above Git Legend)', min: 8, max: 80, step: 2, unit: 'px', def: 30 },
     { key: 'pageMarginMm', label: 'A4 Top/Bottom Page Margin', min: 6, max: 20, step: 1, unit: 'mm', def: 10 },
     { key: 'cardPaddingY', label: 'Commit Card Vertical Padding', min: 4, max: 20, step: 1, unit: 'px', def: 10 },
     { key: 'rowMinHeight', label: 'Detail Commit Row Min-Height', min: 46, max: 110, step: 2, unit: 'px', def: 68 },
@@ -1153,7 +1547,151 @@ function renderLayoutTab() {
     { key: 'lineWidth', label: 'Git Branch Stroke Width', min: 1.5, max: 4.5, step: 0.25, unit: 'px', def: 2.5 },
   ];
 
+  const fontCategories = {};
+  Object.values(FONT_FAMILIES).forEach((f) => {
+    const cat = f.category || 'Other';
+    if (!fontCategories[cat]) fontCategories[cat] = [];
+    fontCategories[cat].push(f);
+  });
+
+  const fontOptionsHtml = Object.entries(fontCategories)
+    .map(
+      ([cat, fonts]) => `
+      <optgroup label="${escapeHtml(cat)}">
+        ${fonts
+          .map(
+            (f) =>
+              `<option value="${f.id}" ${(layout.fontFamily || 'inter') === f.id ? 'selected' : ''}>${escapeHtml(
+                f.label
+              )}</option>`
+          )
+          .join('')}
+      </optgroup>
+    `
+    )
+    .join('');
+
   editorContent.innerHTML = `
+    <div class="section-block">
+      <div class="section-block-title">
+        <span>Document Theme, Header &amp; Footer Backgrounds</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <label class="section-toggle-pill" style="padding:9px 12px;">
+          <div>
+            <div style="font-weight:600; font-size:12.5px;">🌙 Document Dark Mode</div>
+            <div style="font-size:11px; color:var(--text-muted);">Dark A4 background (#0f1117) with crisp white typography</div>
+          </div>
+          <input type="checkbox" class="ui-switch" id="chkLayoutDarkMode" ${layout.darkMode ? 'checked' : ''} />
+        </label>
+
+        <div class="field-grid">
+          <div class="field-wrap" style="background:var(--bg-input); padding:8px 10px; border-radius:6px; border:1px solid var(--border);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:11.5px; font-weight:600;">Header Background</span>
+              <input type="checkbox" class="ui-switch" id="chkLayoutHeaderBg" ${layout.showHeaderBg !== false ? 'checked' : ''} title="Enable/Disable colored header background" />
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="clrLayoutHeaderBg" value="${escapeHtml(headerBg)}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+              <span id="hexLayoutHeaderBg" style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">${escapeHtml(headerBg)}</span>
+            </div>
+          </div>
+
+          <div class="field-wrap" style="background:var(--bg-input); padding:8px 10px; border-radius:6px; border:1px solid var(--border);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:11.5px; font-weight:600;">Footer Background</span>
+              <input type="checkbox" class="ui-switch" id="chkLayoutFooterBg" ${layout.showFooterBg !== false ? 'checked' : ''} title="Enable/Disable colored footer background" />
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="clrLayoutFooterBg" value="${escapeHtml(footerBg)}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+              <span id="hexLayoutFooterBg" style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">${escapeHtml(footerBg)}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-wrap" style="background:var(--bg-input); padding:8px 10px; border-radius:6px; border:1px solid var(--border);">
+          <label class="field-label" style="font-weight:600; font-size:11.5px; margin-bottom:4px; display:block;">Footer Section Title (Überschrift)</label>
+          <input type="text" id="inpFooterTitleLayoutTab" class="studio-input" style="width:100%;" placeholder="Languages &amp; Beyond Code" value="${escapeHtml(currentProfile.labels?.footerSectionTitle !== undefined && currentProfile.labels.footerSectionTitle !== '' ? currentProfile.labels.footerSectionTitle : 'Languages & Beyond Code')}" />
+        </div>
+
+        <div class="field-wrap" style="background:var(--bg-input); padding:10px 12px; border-radius:6px; border:1px solid var(--border);">
+          <label class="field-label" style="font-weight:600; font-size:12px; margin-bottom:6px; display:block;">Font Family (Schriftart — 22 verfügbare Schriften)</label>
+          <select id="selFontFamily" class="studio-select" style="width:100%; font-size:12px; padding:6px 8px;">
+            ${fontOptionsHtml}
+          </select>
+        </div>
+
+        <div class="field-wrap" style="background:var(--bg-input); padding:9px 12px; border-radius:6px; border:1px solid var(--border);">
+          <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+            <div>
+              <div style="font-weight:600; font-size:12px;">Schriftart auf alle Texte anwenden (auch Git-Bereich)</div>
+              <div style="font-size:10.5px; color:var(--text-muted);">Einheitliche Typografie für das gesamte Dokument inkl. Git-Timeline, Daten, Badges &amp; Labels</div>
+            </div>
+            <input type="checkbox" class="ui-switch" id="chkFontScopeAll" ${layout.fontScope !== 'content' ? 'checked' : ''} />
+          </label>
+        </div>
+
+        <div class="field-wrap" style="background:var(--bg-input); padding:9px 12px; border-radius:6px; border:1px solid var(--border);">
+          <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+            <div>
+              <div style="font-weight:600; font-size:12px;">Divider line below Subtitle</div>
+              <div style="font-size:10.5px; color:var(--text-muted);">Horizontal divider line between subtitle and contact items</div>
+            </div>
+            <input type="checkbox" class="ui-switch" id="chkLayoutContactDivider" ${layout.showContactDivider !== false ? 'checked' : ''} />
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="section-block-title">
+        <span>Fine-Tuning: Size &amp; Color per Element</span>
+        <button id="btnResetTypo" class="btn btn-sm">↺ Reset All</button>
+      </div>
+      ${[
+        { group: 'Header' },
+        { key: 'name', label: 'Name (Headline)', def: 34, min: 18, max: 60, step: 1 },
+        { key: 'headline', label: 'Subtitle', def: 13.5, min: 8, max: 26, step: 0.5 },
+        { key: 'contactBorder', label: 'Subtitle Divider Line', def: null },
+        { key: 'contacts', label: 'Contact Items (Text)', def: 10, min: 6, max: 18, step: 0.5 },
+        { key: 'contactKey', label: 'Contact Labels (loc:, mail: …)', def: null },
+        { key: 'summaryBorder', label: 'Summary Divider Line', def: null },
+        { key: 'summary', label: 'Profile Text', def: 11, min: 7, max: 18, step: 0.5 },
+        { group: 'Footer' },
+        { key: 'footerTitle', label: 'Footer Title', def: 17, min: 10, max: 32, step: 0.5 },
+        { key: 'footerLabel', label: 'Footer Box Labels', def: 9, min: 6, max: 16, step: 0.5 },
+        { key: 'footerText', label: 'Footer Text (Languages & Interests)', def: 10.5, min: 7, max: 18, step: 0.5 },
+      ]
+        .map((t) => {
+          if (t.group) {
+            return `<div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:#93c5fd; margin:10px 0 6px;">${t.group}</div>`;
+          }
+          const cfg = (layout.typo && layout.typo[t.key]) || {};
+          const size = cfg.size ?? t.def;
+          const hasColor = Boolean(cfg.color);
+          return `
+          <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:6px; padding:7px 10px; margin-bottom:6px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+              <span style="font-size:11.5px; font-weight:500;">${escapeHtml(t.label)}</span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span id="typoColorState_${t.key}" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);">${hasColor ? escapeHtml(cfg.color) : 'auto'}</span>
+                <input type="color" class="typo-color" data-key="${t.key}" value="${escapeHtml(cfg.color || '#888888')}" title="Text color" style="border:none; width:24px; height:24px; background:none; cursor:pointer;" />
+                <button type="button" class="btn btn-sm typo-color-reset" data-key="${t.key}" title="Back to automatic color" style="padding:2px 6px; font-size:10px;">auto</button>
+              </div>
+            </div>
+            ${
+              t.def === null
+                ? ''
+                : `<div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+                    <input type="range" class="typo-size" data-key="${t.key}" min="${t.min}" max="${t.max}" step="${t.step}" value="${size}" style="flex:1;" />
+                    <span class="slider-val" id="typoSizeVal_${t.key}" style="min-width:42px; text-align:right;">${size}px</span>
+                  </div>`
+            }
+          </div>`;
+        })
+        .join('')}
+    </div>
+
     <div class="section-block">
       <div class="section-block-title">
         <span>Spacing, Typography &amp; Graph Geometry</span>
@@ -1177,32 +1715,178 @@ function renderLayoutTab() {
 
     <div class="section-block">
       <div class="section-block-title">
-        <span>Git Branch Category Colors</span>
+        <span>Git Graph Legend &amp; Category Colors</span>
         <button id="btnResetColors" class="btn btn-sm">↺ Default Colors</button>
       </div>
-      <div class="field-grid">
+      <label class="section-toggle-pill" style="padding:7px 12px; margin-bottom:10px;">
+        <div>
+          <div style="font-weight:600; font-size:12px;">Show Git Legend Bar</div>
+          <div style="font-size:10.5px; color:var(--text-muted);">Displays the branch color legend under the header</div>
+        </div>
+        <input type="checkbox" class="ui-switch" id="chkShowLegend" ${layout.showLegend !== false ? 'checked' : ''} />
+      </label>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
         ${[
-          { key: 'main', label: 'main Branch (Tech Blue)' },
-          { key: 'job', label: 'Work Experience (Emerald)' },
-          { key: 'edu', label: 'Education (Royal Purple)' },
-          { key: 'cert', label: 'Certifications (Amber)' },
-          { key: 'other', label: 'Other / ICS (Vibrant Pink)' },
+          { key: 'main', labelKey: 'legendMain', defLabel: 'Main Branch', desc: 'main / trunk branch' },
+          { key: 'job', labelKey: 'legendJob', defLabel: 'Work Experience', desc: 'Job / Employment' },
+          { key: 'edu', labelKey: 'legendEdu', defLabel: 'Education', desc: 'University / School' },
+          { key: 'cert', labelKey: 'legendCert', defLabel: 'Certifications', desc: 'Point Commit Certs' },
+          { key: 'other', labelKey: 'legendOther', defLabel: 'Other', desc: 'Extracurricular / Other' },
         ]
-          .map(
-            (c) => `
-          <div class="field-wrap" style="display:flex; align-items:center; gap:8px; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
-            <input type="color" class="color-picker" data-key="${c.key}" value="${escapeHtml(colors[c.key] || DEFAULT_COLORS[c.key])}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
-            <div style="flex:1;">
-              <div style="font-size:11.5px; font-weight:500;">${escapeHtml(c.label)}</div>
-              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);" id="hex_${c.key}">${escapeHtml(colors[c.key] || DEFAULT_COLORS[c.key])}</div>
-            </div>
-          </div>
-        `
-          )
+          .map((c) => {
+            const isVis = (layout.legendVisibility || {})[c.key] !== false;
+            const currLabel = currentProfile.labels?.[c.labelKey] || c.defLabel;
+            const currColor = colors[c.key] || DEFAULT_COLORS[c.key];
+            return `
+              <div style="display:flex; align-items:center; gap:8px; background:var(--bg-input); padding:7px 10px; border-radius:6px; border:1px solid var(--border);">
+                <input type="checkbox" class="ui-switch leg-vis-chk" data-key="${c.key}" ${isVis ? 'checked' : ''} title="Show/hide in CV legend" />
+                <input type="color" class="color-picker" data-key="${c.key}" value="${escapeHtml(currColor)}" style="border:none; width:26px; height:26px; background:none; cursor:pointer;" />
+                <div style="flex:1;">
+                  <input type="text" class="studio-input leg-lbl-inp" data-key="${c.labelKey}" value="${escapeHtml(currLabel)}" style="padding:4px 8px; font-size:11.5px;" placeholder="${escapeHtml(c.defLabel)}" />
+                </div>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted); min-width:54px;" id="hex_${c.key}">${escapeHtml(currColor)}</span>
+              </div>
+            `;
+          })
           .join('')}
       </div>
     </div>
   `;
+
+  document.getElementById('selFontFamily')?.addEventListener('change', (e) => {
+    layout.fontFamily = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkFontScopeAll')?.addEventListener('change', (e) => {
+    layout.fontScope = e.target.checked ? 'all' : 'content';
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkLayoutContactDivider')?.addEventListener('change', (e) => {
+    layout.showContactDivider = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('inpFooterTitleLayoutTab')?.addEventListener('input', (e) => {
+    if (!currentProfile.labels) currentProfile.labels = {};
+    currentProfile.labels.footerSectionTitle = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkShowLegend')?.addEventListener('change', (e) => {
+    layout.showLegend = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.querySelectorAll('.leg-vis-chk').forEach((chk) => {
+    chk.addEventListener('change', () => {
+      if (!layout.legendVisibility) layout.legendVisibility = {};
+      layout.legendVisibility[chk.dataset.key] = chk.checked;
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.querySelectorAll('.leg-lbl-inp').forEach((inp) => {
+    inp.addEventListener('input', () => {
+      if (!currentProfile.labels) currentProfile.labels = {};
+      currentProfile.labels[inp.dataset.key] = inp.value;
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  const ensureTypo = (key) => {
+    if (!layout.typo) layout.typo = {};
+    if (!layout.typo[key]) layout.typo[key] = {};
+    return layout.typo[key];
+  };
+
+  document.querySelectorAll('.typo-size').forEach((rng) => {
+    rng.addEventListener('input', () => {
+      const key = rng.dataset.key;
+      ensureTypo(key).size = Number(rng.value);
+      const lbl = document.getElementById(`typoSizeVal_${key}`);
+      if (lbl) lbl.textContent = `${rng.value}px`;
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.querySelectorAll('.typo-color').forEach((pk) => {
+    pk.addEventListener('input', () => {
+      const key = pk.dataset.key;
+      ensureTypo(key).color = pk.value;
+      const st = document.getElementById(`typoColorState_${key}`);
+      if (st) st.textContent = pk.value;
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.querySelectorAll('.typo-color-reset').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.key;
+      if (layout.typo && layout.typo[key]) delete layout.typo[key].color;
+      renderLayoutTab();
+      updateLivePreview();
+      scheduleAutoSave();
+    });
+  });
+
+  document.getElementById('btnResetTypo')?.addEventListener('click', () => {
+    layout.typo = {};
+    renderLayoutTab();
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkLayoutDarkMode')?.addEventListener('change', (e) => {
+    layout.darkMode = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkLayoutHeaderBg')?.addEventListener('change', (e) => {
+    layout.showHeaderBg = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('clrLayoutHeaderBg')?.addEventListener('input', (e) => {
+    layout.headerBgColor = e.target.value;
+    layout.showHeaderBg = true;
+    const chk = document.getElementById('chkLayoutHeaderBg');
+    if (chk) chk.checked = true;
+    const hexEl = document.getElementById('hexLayoutHeaderBg');
+    if (hexEl) hexEl.textContent = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkLayoutFooterBg')?.addEventListener('change', (e) => {
+    layout.showFooterBg = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('clrLayoutFooterBg')?.addEventListener('input', (e) => {
+    layout.footerBgColor = e.target.value;
+    layout.showFooterBg = true;
+    const chk = document.getElementById('chkLayoutFooterBg');
+    if (chk) chk.checked = true;
+    const hexEl = document.getElementById('hexLayoutFooterBg');
+    if (hexEl) hexEl.textContent = e.target.value;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
 
   document.querySelectorAll('.layout-slider').forEach((rng) => {
     rng.addEventListener('input', () => {
@@ -1363,6 +2047,16 @@ modePdfBtn.addEventListener('click', () => {
 
 btnRefreshPdfPreview.addEventListener('click', () => {
   refreshNativePdfPreview();
+});
+
+document.getElementById('chkToolbarDarkMode')?.addEventListener('change', (e) => {
+  if (!currentProfile) return;
+  if (!currentProfile.layout) currentProfile.layout = {};
+  currentProfile.layout.darkMode = e.target.checked;
+  if (activeTab === 'layout') renderLayoutTab();
+  updateLivePreview();
+  scheduleAutoSave();
+  if (previewMode === 'pdf') refreshNativePdfPreview();
 });
 
 zoomSelect.addEventListener('change', () => {
