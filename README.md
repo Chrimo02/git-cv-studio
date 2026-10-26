@@ -1,6 +1,6 @@
 # Git-CV Studio (`cv-studio/`)
 
-Eigenständiges, lokales Werkzeug zum Erstellen, Konfigurieren und direkten Exportieren von **nativen PDF-Lebensläufen im Git-Graph-Design** — komplett entkoppelt von der Astro-Website und Keystatic.
+Eigenständiges, lokales Werkzeug zum Erstellen, Konfigurieren und direkten Exportieren von **nativen PDF-Lebensläufen im Git-Graph-Design**.
 
 ## Schnellstart
 
