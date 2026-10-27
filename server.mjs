@@ -94,11 +94,10 @@ async function generateNativePdfBuffer(profile, serverOrigin) {
     const html = renderFullPrintableHtml(profile, serverOrigin);
     await page.setContent(html, { waitUntil: 'load', timeout: 15000 });
 
-    const marginMm = Number(profile?.layout?.pageMarginMm ?? 10);
     const paginateFnStr = paginateCvDom.toString();
 
     await page.evaluate(
-      async (fnStr, mMm) => {
+      async (fnStr, prof) => {
         await document.fonts.ready;
         const imgs = Array.from(document.querySelectorAll('img'));
         await Promise.all(
@@ -113,10 +112,10 @@ async function generateNativePdfBuffer(profile, serverOrigin) {
 
         const fn = new Function(`return (${fnStr})`)();
         const rootEl = document.querySelector('.cv-root');
-        fn(rootEl, { layout: { pageMarginMm: mMm } }, true);
+        fn(rootEl, prof, true);
       },
       paginateFnStr,
-      marginMm
+      profile
     );
 
     const pdfUint8 = await page.pdf({

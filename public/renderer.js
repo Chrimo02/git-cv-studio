@@ -632,7 +632,7 @@ export function renderCvBodyHtml(profile) {
           const bCol = branchCols[branchId] || 0;
           const bColor = branchColors[branchId] || colors.main;
           const x = bCol * COL_W + X_OFFSET;
-          return `<line x1="${x}" y1="0" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
+          return `<line x1="${x}" y1="-1.5" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
         })
         .join('');
 
@@ -641,7 +641,7 @@ export function renderCvBodyHtml(profile) {
           const bCol = branchCols[branchId] || 0;
           const bColor = branchColors[branchId] || colors.main;
           const x = bCol * COL_W + X_OFFSET;
-          return `<line x1="${x}" y1="0" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
+          return `<line x1="${x}" y1="-1.5" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
         })
         .join('');
 
@@ -652,7 +652,7 @@ export function renderCvBodyHtml(profile) {
             const bCol = branchCols[branchId] || 0;
             const bColor = branchColors[branchId] || colors.main;
             const x = bCol * COL_W + X_OFFSET;
-            return `<line x1="${x}" y1="0" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
+            return `<line x1="${x}" y1="-1.5" x2="${x}" y2="100%" stroke="${bColor}" stroke-width="${LINE_W}" />`;
           }
           return '';
         })
@@ -669,12 +669,12 @@ export function renderCvBodyHtml(profile) {
         `;
       } else if (c.type === 'start') {
         eventSvg = `
-          <line x1="${colX}" y1="0" x2="${colX}" y2="${NODE_Y - 14}" stroke="${commitColor}" stroke-width="${LINE_W}" />
+          <line x1="${colX}" y1="-1.5" x2="${colX}" y2="${NODE_Y - 14}" stroke="${commitColor}" stroke-width="${LINE_W}" />
           <path d="M ${colX} ${NODE_Y - 14} C ${colX} ${NODE_Y - 4}, ${parentX} ${NODE_Y - 10}, ${parentX} ${NODE_Y}" fill="none" stroke="${commitColor}" stroke-width="${LINE_W}" />
         `;
       } else if (c.type === 'ongoing' && !c.singleCommitMode) {
         eventSvg = `
-          <line x1="${colX}" y1="0" x2="${colX}" y2="100%" stroke="${commitColor}" stroke-width="${LINE_W}" />
+          <line x1="${colX}" y1="-1.5" x2="${colX}" y2="100%" stroke="${commitColor}" stroke-width="${LINE_W}" />
           <circle cx="${colX}" cy="${NODE_Y}" r="${NODE_R + 4.5}" fill="none" stroke="${commitColor}" stroke-width="1.3" stroke-dasharray="2.5 2.5" />
         `;
       } else if (c.type === 'ongoing' && c.singleCommitMode) {
@@ -773,8 +773,8 @@ export function renderCvBodyHtml(profile) {
         ${
           commitIdx > 0
             ? `<div class="cv-page-break-top" data-commit-idx="${commitIdx}">
-                <div class="cv-graph-col" style="top:0; bottom:-1px;">
-                  <svg width="100%" height="100%" class="cv-svg-block">
+                <div class="cv-graph-col" style="top:0; bottom:-1.5px;">
+                  <svg width="100%" height="100%" class="cv-svg-block" style="overflow:visible;">
                     ${incomingBridgeSvg}
                   </svg>
                 </div>
@@ -786,7 +786,7 @@ export function renderCvBodyHtml(profile) {
             ${escapeHtml(nodeDateText)}
           </div>
           <div class="cv-graph-col">
-            <svg width="100%" height="100%" class="cv-svg-block">
+            <svg width="100%" height="100%" class="cv-svg-block" style="overflow:visible;">
               ${passThroughSvg}
               ${eventSvg}
               ${nodeCircleSvg}
@@ -799,8 +799,8 @@ export function renderCvBodyHtml(profile) {
         ${
           commitIdx < processedCommits.length - 1
             ? `<div class="cv-page-break-bottom" data-commit-idx="${commitIdx}">
-                <div class="cv-graph-col" style="top:-1px; bottom:0;">
-                  <svg width="100%" height="100%" class="cv-svg-block">
+                <div class="cv-graph-col" style="top:-1.5px; bottom:0;">
+                  <svg width="100%" height="100%" class="cv-svg-block" style="overflow:visible;">
                     ${outgoingBridgeSvg}
                   </svg>
                 </div>
@@ -854,7 +854,7 @@ export function renderCvBodyHtml(profile) {
       .join('');
 
     projectsSectionHtml = `
-      <section class="cv-section cv-card-block">
+      <section class="cv-section cv-projects-section cv-card-block">
         <div class="cv-section-header">
           <h2 class="cv-section-title">${escapeHtml(labels.projectsTitle || 'Selected Engineering Projects')}</h2>
           <p class="cv-section-cmd"><span>~</span> ${escapeHtml(labels.projectsCommand || 'git submodule status --projects')}</p>
@@ -970,8 +970,31 @@ export function renderCvBodyHtml(profile) {
       </div>`
     : '';
 
+  const mainCol = branchCols.main || 0;
+  const mainX = mainCol * COL_W + X_OFFSET;
+  const mainColor = branchColors.main || colors.main;
+  const mainLineSvg = `<line x1="${mainX}" y1="-1.5" x2="${mainX}" y2="100%" stroke="${mainColor}" stroke-width="${LINE_W}" />`;
+  const hasPostSection = Boolean(projectsSectionHtml || footerSectionHtml);
+  const timelineTailHtml =
+    processedCommits.length > 0 && hasPostSection
+      ? `<div class="cv-timeline-tail-bottom">
+           <div class="cv-graph-col" style="top:-1.5px; bottom:0;">
+             <svg width="100%" height="100%" class="cv-svg-block" style="overflow:visible;">
+               ${mainLineSvg}
+             </svg>
+           </div>
+         </div>
+         <div class="cv-timeline-tail">
+           <div class="cv-graph-col" style="top:0; bottom:-1.5px;">
+             <svg width="100%" height="100%" class="cv-svg-block" style="overflow:visible;">
+               ${mainLineSvg}
+             </svg>
+           </div>
+         </div>`
+      : '';
+
   return `
-    <div class="cv-root ${isDark ? 'cv-dark' : 'cv-light'}" style="--cv-scale: ${Number(layout.fontScale) || 1};">
+    <div class="cv-root ${isDark ? 'cv-dark' : 'cv-light'}" data-page-margin-mm="${Number(layout.pageMarginMm ?? 10)}" data-content-indent="${Number(layout.contentIndent) || 188}" data-footer-bottom-offset="${Number(layout.footerBottomOffset) || 0}" data-footer-fill-bottom="${layout.footerFillBottom !== false ? 'true' : 'false'}" style="--cv-scale: ${Number(layout.fontScale) || 1};">
       <header class="cv-header">
         <div class="cv-header-banner ${showHeaderBg ? 'has-bg' : ''} ${headerIsDark ? 'theme-dark' : 'theme-light'}">
           <div class="cv-header-info">
@@ -1000,6 +1023,7 @@ export function renderCvBodyHtml(profile) {
       <section class="cv-timeline">
         ${topExtensionHtml}
         ${commitRowsHtml}
+        ${timelineTailHtml}
       </section>
 
       ${projectsSectionHtml}
@@ -1292,7 +1316,7 @@ export function getCvStyles(profile) {
     /* Timeline */
     .cv-timeline {
       position: relative;
-      padding-bottom: 6px;
+      padding-bottom: 0;
     }
 
     .cv-graph-ext {
@@ -1305,6 +1329,7 @@ export function getCvStyles(profile) {
 
     .cv-svg-block {
       display: block;
+      overflow: visible;
     }
 
     .cv-commit-row {
@@ -1314,10 +1339,19 @@ export function getCvStyles(profile) {
     }
 
     .cv-page-break-top,
-    .cv-page-break-bottom {
+    .cv-page-break-bottom,
+    .cv-timeline-tail-bottom {
       display: none;
       position: relative;
       width: 100%;
+      pointer-events: none;
+    }
+
+    .cv-timeline-tail {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 20px;
       pointer-events: none;
     }
 
@@ -1337,9 +1371,9 @@ export function getCvStyles(profile) {
       position: absolute;
       left: 0;
       top: 0;
-      bottom: 0;
+      bottom: -1.5px;
       width: 250px;
-      overflow: hidden;
+      overflow: visible;
       z-index: 0;
       pointer-events: none;
     }
@@ -1558,14 +1592,18 @@ export function getCvStyles(profile) {
 
     /* Projects & Footer Sections */
     .cv-section {
+      position: relative;
+      z-index: 2;
       padding-top: 14px;
-      margin-top: 10px;
+      margin-top: 0;
       border-top: 1px solid ${borderMain};
     }
 
+    .cv-projects-section + .cv-footer-section {
+      margin-top: 14px;
+    }
+
     .cv-footer-section {
-      break-before: avoid !important;
-      page-break-before: avoid !important;
       break-inside: avoid !important;
       page-break-inside: avoid !important;
     }
@@ -1578,6 +1616,10 @@ export function getCvStyles(profile) {
       margin-right: -12mm;
       margin-bottom: -${marginMm}mm;
       padding: 16px 12mm ${marginMm}mm 12mm;
+      margin-top: 0;
+    }
+
+    .cv-projects-section + .cv-footer-section.has-bg {
       margin-top: 14px;
     }
 
@@ -1812,8 +1854,9 @@ export function getCvStyles(profile) {
 export function paginateCvDom(rootEl, profile, isPrintMode = false) {
   if (!rootEl) return;
   const layout = profile?.layout || {};
-  const marginMm = Number(layout.pageMarginMm ?? 10);
-  const CONTENT_INDENT = Number(layout.contentIndent) || 188;
+  const ds = rootEl.dataset || {};
+  const marginMm = Number(layout.pageMarginMm ?? ds.pageMarginMm ?? 10);
+  const CONTENT_INDENT = Number(layout.contentIndent ?? ds.contentIndent) || 188;
 
   // 1. Reset previous pagination adjustments & restore any split continuations
   rootEl.style.minHeight = '';
@@ -1839,9 +1882,16 @@ export function paginateCvDom(rootEl, profile, isPrintMode = false) {
     el.style.borderBottom = '';
   });
 
-  rootEl.querySelectorAll('.cv-page-break-top, .cv-page-break-bottom').forEach((el) => {
+  rootEl.querySelectorAll('.cv-page-break-top, .cv-page-break-bottom, .cv-timeline-tail-bottom').forEach((el) => {
     el.style.display = 'none';
     el.style.height = '0px';
+    el.style.breakBefore = '';
+    el.style.pageBreakBefore = '';
+  });
+  const hasPostSection = Boolean(rootEl.querySelector('.cv-section'));
+  rootEl.querySelectorAll('.cv-timeline-tail').forEach((el) => {
+    el.style.display = hasPostSection ? 'block' : 'none';
+    el.style.height = hasPostSection ? '20px' : '0px';
     el.style.breakBefore = '';
     el.style.pageBreakBefore = '';
   });
@@ -1851,6 +1901,7 @@ export function paginateCvDom(rootEl, profile, isPrintMode = false) {
     el.style.paddingTop = '';
     el.style.paddingBottom = '';
     el.style.marginTop = '';
+    el.style.marginBottom = '';
   });
 
   // Measure exact A4 height (297mm) and top/bottom margin in CSS pixels
@@ -1932,7 +1983,7 @@ export function paginateCvDom(rootEl, profile, isPrintMode = false) {
           contTopBridge.className = 'cv-page-break-top cv-continuation-bridge';
           contTopBridge.style.display = 'block';
           contTopBridge.style.height = `${marginPx}px`;
-          contTopBridge.innerHTML = `<div class="cv-graph-col" style="top:0; bottom:-1px;">${straightSvg}</div>`;
+          contTopBridge.innerHTML = `<div class="cv-graph-col" style="top:0; bottom:-1.5px;">${straightSvg}</div>`;
           if (isPrintMode) {
             contTopBridge.style.breakBefore = 'page';
             contTopBridge.style.pageBreakBefore = 'always';
@@ -2050,25 +2101,85 @@ export function paginateCvDom(rootEl, profile, isPrintMode = false) {
     }
   }
 
-  // NOTE: Footer directly follows the last entry/section on the SAME page (never alone on a new page)
-
-  // 6. Extend the footer background seamlessly to the bottom edge of the final page
+  // 6. Position the footer at the bottom of the final page (with configurable upward slider offset & bottom fill option)
   const footerSec = rootEl.querySelector('.cv-footer-section');
-  if (footerSec && footerSec.classList.contains('has-bg')) {
-    const rootTop = rootEl.getBoundingClientRect().top;
-    const footerBottom = footerSec.getBoundingClientRect().bottom;
-    const totalPages = Math.max(1, Math.ceil((footerBottom - rootTop) / pageHeightPx));
-    const targetBottom = rootTop + totalPages * pageHeightPx;
-    const gap = targetBottom - footerBottom;
+  const projectsSec = rootEl.querySelector('.cv-projects-section');
+  const tailBottom = rootEl.querySelector('.cv-timeline-tail-bottom');
+  const tail = rootEl.querySelector('.cv-timeline-tail');
+  const MIN_TAIL_H = 20;
 
-    if (gap > 0.5) {
-      const curPadBottom = parseFloat(window.getComputedStyle(footerSec).paddingBottom) || 0;
-      // In print mode, reserve 2px so subpixel rounding cannot spill onto a new page
-      const safeExtra = isPrintMode ? Math.max(0, gap - 2) : gap;
-      footerSec.style.paddingBottom = `${curPadBottom + safeExtra}px`;
+  if (footerSec) {
+    const hasBg = footerSec.classList.contains('has-bg');
+    let maxAllowedBottomY = currentPageTopY + pageHeightPx - (hasBg ? 0 : marginPx);
+    let footerRect = footerSec.getBoundingClientRect();
+
+    // If the footer does not fit on the current page, break cleanly onto the next page
+    if (footerRect.bottom > maxAllowedBottomY + 1) {
+      if (!projectsSec && tail) {
+        const tailTop = tail.getBoundingClientRect().top;
+        const remainingOnPage = Math.max(0, currentPageTopY + pageHeightPx - tailTop);
+        if (tailBottom) {
+          tailBottom.style.display = 'block';
+          const bridgeH = isPrintMode ? Math.max(0, remainingOnPage - 0.5) : remainingOnPage;
+          tailBottom.style.height = `${bridgeH}px`;
+        }
+        if (isPrintMode) {
+          tail.style.breakBefore = 'page';
+          tail.style.pageBreakBefore = 'always';
+        }
+        tail.style.height = `${marginPx + MIN_TAIL_H}px`;
+      } else {
+        const remainingOnPage = Math.max(0, currentPageTopY + pageHeightPx - footerRect.top);
+        if (isPrintMode) {
+          footerSec.style.breakBefore = 'page';
+          footerSec.style.pageBreakBefore = 'always';
+          footerSec.style.marginTop = `${marginPx}px`;
+        } else {
+          footerSec.style.marginTop = `${remainingOnPage + marginPx}px`;
+        }
+      }
+      currentPageTopY += pageHeightPx;
+      pageCount++;
     }
+
+    // Re-measure on the final page to compute available vertical room
+    footerRect = footerSec.getBoundingClientRect();
+    maxAllowedBottomY = currentPageTopY + pageHeightPx - (hasBg ? 0 : marginPx);
+    const safeMaxBottomY = maxAllowedBottomY - (isPrintMode ? 1.5 : 0.5);
+    const availableSpace = Math.max(0, safeMaxBottomY - footerRect.bottom);
+
+    const userOffset = Math.max(0, Number(layout.footerBottomOffset ?? ds.footerBottomOffset) || 0);
+    const fillBottom =
+      layout.footerFillBottom !== undefined
+        ? layout.footerFillBottom !== false
+        : ds.footerFillBottom !== 'false';
+    const topGap = Math.max(0, availableSpace - userOffset);
+    const bottomGap = Math.max(0, availableSpace - topGap);
+
+    // Push footer down to its target position (extending the main branch line into the footer if no projects section is in between)
+    if (topGap > 0.25) {
+      if (!projectsSec && tail) {
+        const curTailH = parseFloat(tail.style.height) || MIN_TAIL_H;
+        tail.style.height = `${curTailH + topGap}px`;
+      } else {
+        const curMarginTop = parseFloat(window.getComputedStyle(footerSec).marginTop) || 0;
+        footerSec.style.marginTop = `${curMarginTop + topGap}px`;
+      }
+    }
+
+    // Handle the area below the footer when moved upward via the slider (bottomGap > 0)
+    if (bottomGap > 0.5) {
+      if (hasBg && fillBottom) {
+        const curPadBottom = parseFloat(window.getComputedStyle(footerSec).paddingBottom) || 0;
+        footerSec.style.paddingBottom = `${curPadBottom + bottomGap}px`;
+      } else if (hasBg && !fillBottom) {
+        // Keep the area below the footer in the document background color (white in light mode)
+        footerSec.style.marginBottom = `${bottomGap - marginPx}px`;
+      }
+    }
+
     if (!isPrintMode) {
-      rootEl.style.minHeight = `${totalPages * pageHeightPx}px`;
+      rootEl.style.minHeight = `${Math.round(pageCount * pageHeightPx)}px`;
     }
   }
 }

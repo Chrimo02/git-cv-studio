@@ -96,7 +96,7 @@ function drawA4PageGuides() {
   liveSheetWrap.querySelectorAll('.a4-page-guide').forEach((el) => el.remove());
   const pageHeightPx = 297 * 3.7795275591;
   const totalHeight = liveSheetWrap.scrollHeight;
-  const totalPages = Math.max(1, Math.ceil(totalHeight / pageHeightPx));
+  const totalPages = Math.max(1, Math.ceil((totalHeight - 2) / pageHeightPx));
   liveSheetWrap.style.minHeight = `${Math.round(totalPages * pageHeightPx)}px`;
 
   for (let p = 1; p < totalPages; p++) {
@@ -1250,6 +1250,21 @@ function renderProjectsTab() {
               <button type="button" class="btn btn-sm ftr-txt-preset" data-hex="#ffffff" title="White Text" style="padding:2px 6px; font-size:10px;">White</button>
             </div>
           </div>
+
+          <div style="margin-top:10px; background:var(--bg-input); padding:9px 12px; border-radius:6px; border:1px solid var(--border);">
+            <div class="slider-top" style="margin-bottom:4px;">
+              <span style="font-weight:600; font-size:11.5px;">Footer Position (Vom Seitenende nach oben schieben)</span>
+              <span class="slider-val" id="val_proj_footerBottomOffset">${Number(layout.footerBottomOffset) || 0}px</span>
+            </div>
+            <input type="range" id="rngFooterOffsetProjTab" min="0" max="950" step="5" value="${Number(layout.footerBottomOffset) || 0}" />
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:8px; border-top:1px solid var(--border);">
+              <div>
+                <div style="font-size:11.5px; font-weight:500;">Bereich unterhalb des Footers einfärben</div>
+                <div style="font-size:10px; color:var(--text-muted);">Wenn der Footer nach oben geschoben ist: AN = bis Seitenende einfärben, AUS = darunter weiß lassen</div>
+              </div>
+              <input type="checkbox" class="ui-switch" id="chkFooterFillBottomProjTab" ${layout.footerFillBottom !== false ? 'checked' : ''} />
+            </div>
+          </div>
         </div>
 
         <!-- Footer Section Title -->
@@ -1362,6 +1377,21 @@ function renderProjectsTab() {
     if (layout.headerTextColor) layout.footerTextColor = layout.headerTextColor;
     layout.showFooterBg = true;
     renderProjectsTab();
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('rngFooterOffsetProjTab')?.addEventListener('input', (e) => {
+    const val = Number(e.target.value) || 0;
+    layout.footerBottomOffset = val;
+    const lbl = document.getElementById('val_proj_footerBottomOffset');
+    if (lbl) lbl.textContent = `${val}px`;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
+  document.getElementById('chkFooterFillBottomProjTab')?.addEventListener('change', (e) => {
+    layout.footerFillBottom = e.target.checked;
     updateLivePreview();
     scheduleAutoSave();
   });
@@ -1536,6 +1566,7 @@ function renderLayoutTab() {
     { key: 'fontScale', label: 'Typography Scale (Font Size)', min: 0.8, max: 1.2, step: 0.02, unit: 'x', def: 1 },
     { key: 'avatarSize', label: 'Portrait Photo Size (Right Header)', min: 76, max: 156, step: 2, unit: 'px', def: 116 },
     { key: 'headerPadBottom', label: 'Header Box Bottom Padding (Space above Git Legend)', min: 8, max: 80, step: 2, unit: 'px', def: 30 },
+    { key: 'footerBottomOffset', label: 'Footer Position (Vom Seitenende nach oben schieben)', min: 0, max: 950, step: 5, unit: 'px', def: 0 },
     { key: 'pageMarginMm', label: 'A4 Top/Bottom Page Margin', min: 6, max: 20, step: 1, unit: 'mm', def: 10 },
     { key: 'cardPaddingY', label: 'Commit Card Vertical Padding', min: 4, max: 20, step: 1, unit: 'px', def: 10 },
     { key: 'rowMinHeight', label: 'Detail Commit Row Min-Height', min: 46, max: 110, step: 2, unit: 'px', def: 68 },
@@ -1612,6 +1643,16 @@ function renderLayoutTab() {
         <div class="field-wrap" style="background:var(--bg-input); padding:8px 10px; border-radius:6px; border:1px solid var(--border);">
           <label class="field-label" style="font-weight:600; font-size:11.5px; margin-bottom:4px; display:block;">Footer Section Title (Überschrift)</label>
           <input type="text" id="inpFooterTitleLayoutTab" class="studio-input" style="width:100%;" placeholder="Languages &amp; Beyond Code" value="${escapeHtml(currentProfile.labels?.footerSectionTitle !== undefined && currentProfile.labels.footerSectionTitle !== '' ? currentProfile.labels.footerSectionTitle : 'Languages & Beyond Code')}" />
+        </div>
+
+        <div class="field-wrap" style="background:var(--bg-input); padding:9px 12px; border-radius:6px; border:1px solid var(--border);">
+          <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+            <div>
+              <div style="font-weight:600; font-size:12px;">Bereich unterhalb des Footers einfärben</div>
+              <div style="font-size:10.5px; color:var(--text-muted);">Wenn der Footer per Slider nach oben geschoben wird: AN = bis Seitenende einfärben, AUS = darunter weiß lassen</div>
+            </div>
+            <input type="checkbox" class="ui-switch" id="chkLayoutFooterFillBottom" ${layout.footerFillBottom !== false ? 'checked' : ''} />
+          </label>
         </div>
 
         <div class="field-wrap" style="background:var(--bg-input); padding:10px 12px; border-radius:6px; border:1px solid var(--border);">
@@ -1772,6 +1813,12 @@ function renderLayoutTab() {
     scheduleAutoSave();
   });
 
+  document.getElementById('chkLayoutFooterFillBottom')?.addEventListener('change', (e) => {
+    layout.footerFillBottom = e.target.checked;
+    updateLivePreview();
+    scheduleAutoSave();
+  });
+
   document.getElementById('inpFooterTitleLayoutTab')?.addEventListener('input', (e) => {
     if (!currentProfile.labels) currentProfile.labels = {};
     currentProfile.labels.footerSectionTitle = e.target.value;
@@ -1905,6 +1952,7 @@ function renderLayoutTab() {
     sliders.forEach((s) => {
       layout[s.key] = s.def;
     });
+    layout.footerFillBottom = true;
     renderLayoutTab();
     updateLivePreview();
     scheduleAutoSave();
